@@ -4,7 +4,7 @@
 
 #include "common.h"
 
-#define RING_SIZE 1024
+#define RING_SIZE 1024 // TODO: Test with a smaller ring size > 2.
 
 struct RingsQueue;
 typedef struct RingsQueue RingsQueue;

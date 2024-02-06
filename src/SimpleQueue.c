@@ -80,12 +80,12 @@ Value SimpleQueue_pop(SimpleQueue *queue) {
         queue->q_size--;
         queue->tail = node->next;
         node->next = NULL; // TODO: maybe not needed
-        Value temp = node->item;
+        Value item = node->item;
 
         free(node); // TODO: free assertions
 
         ASSERT_SYS_OK(pthread_mutex_unlock(&queue->tail_mtx));
-        return temp;
+        return item;
     }
 }
 

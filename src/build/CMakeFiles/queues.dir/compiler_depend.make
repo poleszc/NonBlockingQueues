@@ -114,7 +114,7 @@ CMakeFiles/queues.dir/HazardPointer.c.o: /home/students/inf/p/po448390/2_rok/PW/
 
 CMakeFiles/queues.dir/LLQueue.c.o: /home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/src/LLQueue.c \
   /usr/include/stdc-predef.h \
-  /usr/include/malloc.h \
+  /usr/include/assert.h \
   /usr/include/features.h \
   /usr/include/features-time64.h \
   /usr/include/x86_64-linux-gnu/bits/wordsize.h \
@@ -123,6 +123,7 @@ CMakeFiles/queues.dir/LLQueue.c.o: /home/students/inf/p/po448390/2_rok/PW/zadani
   /usr/include/x86_64-linux-gnu/bits/long-double.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+  /usr/include/malloc.h \
   /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
   /usr/include/stdio.h \
   /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
@@ -320,9 +321,9 @@ CMakeFiles/queues.dir/SimpleQueue.c.o: /home/students/inf/p/po448390/2_rok/PW/za
 
 /usr/include/pthread.h:
 
-/usr/include/assert.h:
-
 /home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/src/RingsQueue.c:
+
+/usr/include/assert.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h:
 

@@ -1,0 +1,4 @@
+/home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/src/build/CMakeFiles/queues.dir
+/home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/src/build/CMakeFiles/simpleTester.dir
+/home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/src/build/CMakeFiles/edit_cache.dir
+/home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/src/build/CMakeFiles/rebuild_cache.dir

@@ -22,7 +22,7 @@ SimpleQueueNode *SimpleQueueNode_new(Value item) {
     assert(node != NULL);
 
     node->item = item;
-    node->next = NULL;
+    atomic_init(&node->next, NULL);
     return node;
 }
 
@@ -66,7 +66,9 @@ void SimpleQueue_push(SimpleQueue *queue, Value item) {
 
     SimpleQueueNode *node = SimpleQueueNode_new(item);
     assert(pthread_mutex_lock(&queue->head_mtx) >= 0); // TODO: Maybe before allocation
-    queue->head->next = node;
+    atomic_store(&queue->head->next, node);
+    // atomic_store(&queue->head, node);
+    // queue->head->next = node;
     queue->head = node;
     assert(pthread_mutex_unlock(&queue->head_mtx) >= 0);
 }

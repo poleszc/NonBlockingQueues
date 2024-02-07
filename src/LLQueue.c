@@ -35,8 +35,11 @@ LLQueue *LLQueue_new(void) {
     LLQueue *queue = (LLQueue *)malloc(sizeof(LLQueue));
     assert(queue != NULL);
 
-    LLNode *node =
-        LLQueueNode_new(EMPTY_VALUE); // Mock node to avoid edge cases
+    HazardPointer_initialize(&queue->hp); // TODO: Does that belong here???
+
+
+    // Mock node to avoid edge cases
+    LLNode *node = LLQueueNode_new(EMPTY_VALUE); 
 
     atomic_init(&queue->head, node); // TODO: Co robi init?
     atomic_init(&queue->tail, node);
@@ -48,9 +51,11 @@ void LLQueue_delete(LLQueue *queue) {
     LLNode *node = atomic_load(&queue->head);
     while (node) {
         LLNode *next = atomic_load(&node->next);
-        free(node); // TODO: Free that memory
+        HazardPointer_retire(&queue->hp, node);
         node = next;
     }
+
+    HazardPointer_finalize(&queue->hp);
 
     free(queue); // TODO: Free that memory?
 }

@@ -8,14 +8,14 @@
 static const int RETIRED_THRESHOLD = MAX_THREADS;
 
 struct HazardPointer {
-    _Atomic(void*) pointer[MAX_THREADS];
-    // TODO
+    _Atomic(void *) pointer[MAX_THREADS];
+    void *retired[MAX_THREADS][MAX_THREADS]; // Retired pointers
 };
 typedef struct HazardPointer HazardPointer;
 
 void HazardPointer_register(int thread_id, int num_threads);
-void HazardPointer_initialize(HazardPointer* hp);
-void HazardPointer_finalize(HazardPointer* hp);
-void* HazardPointer_protect(HazardPointer* hp, const _Atomic(void*)* atom);
-void HazardPointer_clear(HazardPointer* hp);
-void HazardPointer_retire(HazardPointer* hp, void* ptr);
+void HazardPointer_initialize(HazardPointer *hp);
+void HazardPointer_finalize(HazardPointer *hp);
+void *HazardPointer_protect(HazardPointer *hp, const _Atomic(void *) *atom);
+void HazardPointer_clear(HazardPointer *hp);
+void HazardPointer_retire(HazardPointer *hp, void *ptr);

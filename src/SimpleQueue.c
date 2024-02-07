@@ -5,6 +5,8 @@
 #include "HazardPointer.h" // TODO: Remove that
 #include "SimpleQueue.h"
 
+//TODO: Atomic_store somewhere???
+
 struct SimpleQueueNode;
 typedef struct SimpleQueueNode SimpleQueueNode;
 

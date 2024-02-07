@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <malloc.h>
 #include <pthread.h>
 
@@ -7,14 +8,16 @@
 struct SimpleQueueNode;
 typedef struct SimpleQueueNode SimpleQueueNode;
 
+static const Value MOCK_VALUE = INT64_MIN;
+
 struct SimpleQueueNode {
-    SimpleQueueNode *next;
+    _Atomic(SimpleQueueNode *) next;
     Value item;
 };
 
 SimpleQueueNode *SimpleQueueNode_new(Value item) {
     SimpleQueueNode *node = (SimpleQueueNode *)malloc(sizeof(SimpleQueueNode));
-    ASSERT_NOT_NULL(node);
+    assert(node != NULL);
 
     node->item = item;
     node->next = NULL;
@@ -26,67 +29,69 @@ struct SimpleQueue {
     SimpleQueueNode *tail;
     pthread_mutex_t head_mtx;
     pthread_mutex_t tail_mtx;
-    size_t q_size;
 };
 
 SimpleQueue *SimpleQueue_new(void) {
-    // TODO: Check malloc fail.
     SimpleQueue *queue = (SimpleQueue *)malloc(sizeof(SimpleQueue));
-    ASSERT_NOT_NULL(queue);
+    assert(queue != NULL);
 
     SimpleQueueNode *node = SimpleQueueNode_new(MOCK_VALUE);
 
-    queue->q_size = 0;
     queue->head = node;
     queue->tail = node;
 
-    ASSERT_SYS_OK(pthread_mutex_init(&queue->head_mtx, NULL));
-    ASSERT_SYS_OK(pthread_mutex_init(&queue->tail_mtx, NULL));
+    assert(pthread_mutex_init(&queue->head_mtx, NULL) >= 0);
+    assert(pthread_mutex_init(&queue->tail_mtx, NULL) >= 0);
     return queue;
 }
 
 void SimpleQueue_delete(SimpleQueue *queue) {
     // TODO: Maybe put that in one mutex. Cause it will to the exact same thing.
-    while (!SimpleQueue_is_empty(queue)) {
-        // TODO: Do we need to free value. I don't think so.
-        Value temp = SimpleQueue_pop(queue);
+    SimpleQueueNode* node = queue->head;
+
+    while (node) {
+        SimpleQueueNode* next = atomic_load(&node->next);
+        free(node);
+        node = next;
     }
 
-    ASSERT_SYS_OK(pthread_mutex_destroy(&queue->head_mtx));
-    ASSERT_SYS_OK(pthread_mutex_destroy(&queue->tail_mtx));
+    assert(pthread_mutex_destroy(&queue->head_mtx) >= 0);
+    assert(pthread_mutex_destroy(&queue->tail_mtx) >= 0);
     free(queue);
 }
 
 void SimpleQueue_push(SimpleQueue *queue, Value item) {
-    ASSERT_SYS_OK(pthread_mutex_lock(&queue->head_mtx));
 
     SimpleQueueNode *node = SimpleQueueNode_new(item);
-    queue->q_size++;
+    assert(pthread_mutex_lock(&queue->head_mtx) >= 0); // TODO: Maybe before allocation
     queue->head->next = node;
     queue->head = node;
-
-    ASSERT_SYS_OK(pthread_mutex_unlock(&queue->head_mtx));
+    assert(pthread_mutex_unlock(&queue->head_mtx) >= 0);
 }
 
 Value SimpleQueue_pop(SimpleQueue *queue) {
     // TODO: Maybe put that only in the else statement
-    ASSERT_SYS_OK(pthread_mutex_lock(&queue->tail_mtx));
+    assert(pthread_mutex_lock(&queue->tail_mtx) >= 0);
+    SimpleQueueNode* last = queue->tail;
+    SimpleQueueNode* next = atomic_load(&last->next); 
 
-    if (queue->q_size == 0) {
-        ASSERT_SYS_OK(pthread_mutex_unlock(&queue->tail_mtx));
+    if (next == NULL) {
+        assert(pthread_mutex_unlock(&queue->tail_mtx) >= 0);
         return EMPTY_VALUE;
     } else {
-        SimpleQueueNode *node = queue->tail;
-        queue->q_size--;
-        queue->tail = node->next;
-        node->next = NULL; // TODO: maybe not needed
-        Value item = node->item;
+        Value item = next->item;
+        queue->tail = next;
+        last->next = NULL; // TODO: Maybe not needed
 
-        free(node); // TODO: free assertions
-
-        ASSERT_SYS_OK(pthread_mutex_unlock(&queue->tail_mtx));
+        assert(pthread_mutex_unlock(&queue->tail_mtx) >= 0);
+        free(last);
         return item;
     }
 }
 
-bool SimpleQueue_is_empty(SimpleQueue *queue) { return (queue->q_size == 0); }
+bool SimpleQueue_is_empty(SimpleQueue *queue) {
+    pthread_mutex_lock(&queue->tail_mtx);
+    bool isEmpty = (atomic_load(&queue->tail->next) == NULL);
+    pthread_mutex_unlock(&queue->tail_mtx);
+    return isEmpty;
+}

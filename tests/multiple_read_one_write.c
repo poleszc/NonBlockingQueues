@@ -8,9 +8,9 @@
 #include "RingsQueue.h"
 
 
-#define NUM_THREADS 2
+#define NUM_THREADS 4
 #define READERS 7
-#define ELEMENTS 100
+#define ELEMENTS 1000
 
 _Atomic(int) counter = 0;
 

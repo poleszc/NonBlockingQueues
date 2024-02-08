@@ -29,11 +29,14 @@ typedef struct QueueVTable QueueVTable;
 #pragma GCC diagnostic ignored "-Wincompatible-pointer-types"
 
 const QueueVTable queueVTables[] = {
-    // {"SimpleQueue", SimpleQueue_new, SimpleQueue_push, SimpleQueue_pop, SimpleQueue_is_empty, SimpleQueue_delete},
-    // {"RingsQueue", RingsQueue_new, RingsQueue_push, RingsQueue_pop, RingsQueue_is_empty, RingsQueue_delete},
-    {"LLQueue", LLQueue_new, LLQueue_push, LLQueue_pop, LLQueue_is_empty, LLQueue_delete}
-    // {"BLQueue", BLQueue_new, BLQueue_push, BLQueue_pop, BLQueue_is_empty, BLQueue_delete},
-};
+    {"SimpleQueue", SimpleQueue_new, SimpleQueue_push, SimpleQueue_pop,
+     SimpleQueue_is_empty, SimpleQueue_delete},
+    {"RingsQueue", RingsQueue_new, RingsQueue_push, RingsQueue_pop,
+     RingsQueue_is_empty, RingsQueue_delete},
+    {"LLQueue", LLQueue_new, LLQueue_push, LLQueue_pop, LLQueue_is_empty,
+     LLQueue_delete},
+    {"BLQueue", BLQueue_new, BLQueue_push, BLQueue_pop, BLQueue_is_empty,
+     BLQueue_delete}};
 
 #pragma GCC diagnostic pop
 
@@ -65,7 +68,8 @@ void *reader(void *arg) {
     for (int i = 0; i < ELEMENTS; ++i) {
         popped[i] = 0;
     }
-    while (atomic_load(&my_counter) < ELEMENTS || atomic_load(&counter) < ELEMENTS) {
+    while (atomic_load(&my_counter) < ELEMENTS ||
+           atomic_load(&counter) < ELEMENTS) {
         Value item = Q.pop(queue);
         if (item != EMPTY_VALUE) {
             // printf("%lu\n", item);

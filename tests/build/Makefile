@@ -172,6 +172,19 @@ test_multiple_read_multiple_write/fast:
 .PHONY : test_multiple_read_multiple_write/fast
 
 #=============================================================================
+# Target rules for targets named test_multiple_read_multiple_write_with_isempty
+
+# Build rule for target.
+test_multiple_read_multiple_write_with_isempty: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_multiple_read_multiple_write_with_isempty
+.PHONY : test_multiple_read_multiple_write_with_isempty
+
+# fast build rule for target.
+test_multiple_read_multiple_write_with_isempty/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_multiple_read_multiple_write_with_isempty.dir/build.make CMakeFiles/test_multiple_read_multiple_write_with_isempty.dir/build
+.PHONY : test_multiple_read_multiple_write_with_isempty/fast
+
+#=============================================================================
 # Target rules for targets named test_multiple_read_one_write
 
 # Build rule for target.
@@ -183,6 +196,19 @@ test_multiple_read_one_write: cmake_check_build_system
 test_multiple_read_one_write/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_multiple_read_one_write.dir/build.make CMakeFiles/test_multiple_read_one_write.dir/build
 .PHONY : test_multiple_read_one_write/fast
+
+#=============================================================================
+# Target rules for targets named test_multiple_read_one_write_with_isempty
+
+# Build rule for target.
+test_multiple_read_one_write_with_isempty: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_multiple_read_one_write_with_isempty
+.PHONY : test_multiple_read_one_write_with_isempty
+
+# fast build rule for target.
+test_multiple_read_one_write_with_isempty/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_multiple_read_one_write_with_isempty.dir/build.make CMakeFiles/test_multiple_read_one_write_with_isempty.dir/build
+.PHONY : test_multiple_read_one_write_with_isempty/fast
 
 #=============================================================================
 # Target rules for targets named test_one_read_multiple_write
@@ -198,6 +224,19 @@ test_one_read_multiple_write/fast:
 .PHONY : test_one_read_multiple_write/fast
 
 #=============================================================================
+# Target rules for targets named test_one_read_multiple_write_with_isempty
+
+# Build rule for target.
+test_one_read_multiple_write_with_isempty: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_one_read_multiple_write_with_isempty
+.PHONY : test_one_read_multiple_write_with_isempty
+
+# fast build rule for target.
+test_one_read_multiple_write_with_isempty/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_one_read_multiple_write_with_isempty.dir/build.make CMakeFiles/test_one_read_multiple_write_with_isempty.dir/build
+.PHONY : test_one_read_multiple_write_with_isempty/fast
+
+#=============================================================================
 # Target rules for targets named test_one_read_one_write_tester
 
 # Build rule for target.
@@ -209,6 +248,19 @@ test_one_read_one_write_tester: cmake_check_build_system
 test_one_read_one_write_tester/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_one_read_one_write_tester.dir/build.make CMakeFiles/test_one_read_one_write_tester.dir/build
 .PHONY : test_one_read_one_write_tester/fast
+
+#=============================================================================
+# Target rules for targets named test_one_read_one_write_tester_with_isempty
+
+# Build rule for target.
+test_one_read_one_write_tester_with_isempty: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_one_read_one_write_tester_with_isempty
+.PHONY : test_one_read_one_write_tester_with_isempty
+
+# fast build rule for target.
+test_one_read_one_write_tester_with_isempty/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_one_read_one_write_tester_with_isempty.dir/build.make CMakeFiles/test_one_read_one_write_tester_with_isempty.dir/build
+.PHONY : test_one_read_one_write_tester_with_isempty/fast
 
 BLQueue.o: BLQueue.c.o
 .PHONY : BLQueue.o
@@ -402,6 +454,30 @@ tests/multiple_read_multiple_write.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_multiple_read_multiple_write.dir/build.make CMakeFiles/test_multiple_read_multiple_write.dir/tests/multiple_read_multiple_write.c.s
 .PHONY : tests/multiple_read_multiple_write.c.s
 
+tests/multiple_read_multiple_write_with_isempty.o: tests/multiple_read_multiple_write_with_isempty.c.o
+.PHONY : tests/multiple_read_multiple_write_with_isempty.o
+
+# target to build an object file
+tests/multiple_read_multiple_write_with_isempty.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_multiple_read_multiple_write_with_isempty.dir/build.make CMakeFiles/test_multiple_read_multiple_write_with_isempty.dir/tests/multiple_read_multiple_write_with_isempty.c.o
+.PHONY : tests/multiple_read_multiple_write_with_isempty.c.o
+
+tests/multiple_read_multiple_write_with_isempty.i: tests/multiple_read_multiple_write_with_isempty.c.i
+.PHONY : tests/multiple_read_multiple_write_with_isempty.i
+
+# target to preprocess a source file
+tests/multiple_read_multiple_write_with_isempty.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_multiple_read_multiple_write_with_isempty.dir/build.make CMakeFiles/test_multiple_read_multiple_write_with_isempty.dir/tests/multiple_read_multiple_write_with_isempty.c.i
+.PHONY : tests/multiple_read_multiple_write_with_isempty.c.i
+
+tests/multiple_read_multiple_write_with_isempty.s: tests/multiple_read_multiple_write_with_isempty.c.s
+.PHONY : tests/multiple_read_multiple_write_with_isempty.s
+
+# target to generate assembly for a file
+tests/multiple_read_multiple_write_with_isempty.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_multiple_read_multiple_write_with_isempty.dir/build.make CMakeFiles/test_multiple_read_multiple_write_with_isempty.dir/tests/multiple_read_multiple_write_with_isempty.c.s
+.PHONY : tests/multiple_read_multiple_write_with_isempty.c.s
+
 tests/multiple_read_one_write.o: tests/multiple_read_one_write.c.o
 .PHONY : tests/multiple_read_one_write.o
 
@@ -425,6 +501,30 @@ tests/multiple_read_one_write.s: tests/multiple_read_one_write.c.s
 tests/multiple_read_one_write.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_multiple_read_one_write.dir/build.make CMakeFiles/test_multiple_read_one_write.dir/tests/multiple_read_one_write.c.s
 .PHONY : tests/multiple_read_one_write.c.s
+
+tests/multiple_read_one_write_with_isempty.o: tests/multiple_read_one_write_with_isempty.c.o
+.PHONY : tests/multiple_read_one_write_with_isempty.o
+
+# target to build an object file
+tests/multiple_read_one_write_with_isempty.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_multiple_read_one_write_with_isempty.dir/build.make CMakeFiles/test_multiple_read_one_write_with_isempty.dir/tests/multiple_read_one_write_with_isempty.c.o
+.PHONY : tests/multiple_read_one_write_with_isempty.c.o
+
+tests/multiple_read_one_write_with_isempty.i: tests/multiple_read_one_write_with_isempty.c.i
+.PHONY : tests/multiple_read_one_write_with_isempty.i
+
+# target to preprocess a source file
+tests/multiple_read_one_write_with_isempty.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_multiple_read_one_write_with_isempty.dir/build.make CMakeFiles/test_multiple_read_one_write_with_isempty.dir/tests/multiple_read_one_write_with_isempty.c.i
+.PHONY : tests/multiple_read_one_write_with_isempty.c.i
+
+tests/multiple_read_one_write_with_isempty.s: tests/multiple_read_one_write_with_isempty.c.s
+.PHONY : tests/multiple_read_one_write_with_isempty.s
+
+# target to generate assembly for a file
+tests/multiple_read_one_write_with_isempty.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_multiple_read_one_write_with_isempty.dir/build.make CMakeFiles/test_multiple_read_one_write_with_isempty.dir/tests/multiple_read_one_write_with_isempty.c.s
+.PHONY : tests/multiple_read_one_write_with_isempty.c.s
 
 tests/one_read_multiple_write.o: tests/one_read_multiple_write.c.o
 .PHONY : tests/one_read_multiple_write.o
@@ -450,6 +550,30 @@ tests/one_read_multiple_write.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_one_read_multiple_write.dir/build.make CMakeFiles/test_one_read_multiple_write.dir/tests/one_read_multiple_write.c.s
 .PHONY : tests/one_read_multiple_write.c.s
 
+tests/one_read_multiple_write_with_isempty.o: tests/one_read_multiple_write_with_isempty.c.o
+.PHONY : tests/one_read_multiple_write_with_isempty.o
+
+# target to build an object file
+tests/one_read_multiple_write_with_isempty.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_one_read_multiple_write_with_isempty.dir/build.make CMakeFiles/test_one_read_multiple_write_with_isempty.dir/tests/one_read_multiple_write_with_isempty.c.o
+.PHONY : tests/one_read_multiple_write_with_isempty.c.o
+
+tests/one_read_multiple_write_with_isempty.i: tests/one_read_multiple_write_with_isempty.c.i
+.PHONY : tests/one_read_multiple_write_with_isempty.i
+
+# target to preprocess a source file
+tests/one_read_multiple_write_with_isempty.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_one_read_multiple_write_with_isempty.dir/build.make CMakeFiles/test_one_read_multiple_write_with_isempty.dir/tests/one_read_multiple_write_with_isempty.c.i
+.PHONY : tests/one_read_multiple_write_with_isempty.c.i
+
+tests/one_read_multiple_write_with_isempty.s: tests/one_read_multiple_write_with_isempty.c.s
+.PHONY : tests/one_read_multiple_write_with_isempty.s
+
+# target to generate assembly for a file
+tests/one_read_multiple_write_with_isempty.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_one_read_multiple_write_with_isempty.dir/build.make CMakeFiles/test_one_read_multiple_write_with_isempty.dir/tests/one_read_multiple_write_with_isempty.c.s
+.PHONY : tests/one_read_multiple_write_with_isempty.c.s
+
 tests/one_read_one_write_tester.o: tests/one_read_one_write_tester.c.o
 .PHONY : tests/one_read_one_write_tester.o
 
@@ -474,6 +598,30 @@ tests/one_read_one_write_tester.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_one_read_one_write_tester.dir/build.make CMakeFiles/test_one_read_one_write_tester.dir/tests/one_read_one_write_tester.c.s
 .PHONY : tests/one_read_one_write_tester.c.s
 
+tests/one_read_one_write_tester_with_isempty.o: tests/one_read_one_write_tester_with_isempty.c.o
+.PHONY : tests/one_read_one_write_tester_with_isempty.o
+
+# target to build an object file
+tests/one_read_one_write_tester_with_isempty.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_one_read_one_write_tester_with_isempty.dir/build.make CMakeFiles/test_one_read_one_write_tester_with_isempty.dir/tests/one_read_one_write_tester_with_isempty.c.o
+.PHONY : tests/one_read_one_write_tester_with_isempty.c.o
+
+tests/one_read_one_write_tester_with_isempty.i: tests/one_read_one_write_tester_with_isempty.c.i
+.PHONY : tests/one_read_one_write_tester_with_isempty.i
+
+# target to preprocess a source file
+tests/one_read_one_write_tester_with_isempty.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_one_read_one_write_tester_with_isempty.dir/build.make CMakeFiles/test_one_read_one_write_tester_with_isempty.dir/tests/one_read_one_write_tester_with_isempty.c.i
+.PHONY : tests/one_read_one_write_tester_with_isempty.c.i
+
+tests/one_read_one_write_tester_with_isempty.s: tests/one_read_one_write_tester_with_isempty.c.s
+.PHONY : tests/one_read_one_write_tester_with_isempty.s
+
+# target to generate assembly for a file
+tests/one_read_one_write_tester_with_isempty.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_one_read_one_write_tester_with_isempty.dir/build.make CMakeFiles/test_one_read_one_write_tester_with_isempty.dir/tests/one_read_one_write_tester_with_isempty.c.s
+.PHONY : tests/one_read_one_write_tester_with_isempty.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -486,9 +634,13 @@ help:
 	@echo "... queues"
 	@echo "... simpleTester"
 	@echo "... test_multiple_read_multiple_write"
+	@echo "... test_multiple_read_multiple_write_with_isempty"
 	@echo "... test_multiple_read_one_write"
+	@echo "... test_multiple_read_one_write_with_isempty"
 	@echo "... test_one_read_multiple_write"
+	@echo "... test_one_read_multiple_write_with_isempty"
 	@echo "... test_one_read_one_write_tester"
+	@echo "... test_one_read_one_write_tester_with_isempty"
 	@echo "... BLQueue.o"
 	@echo "... BLQueue.i"
 	@echo "... BLQueue.s"
@@ -513,15 +665,27 @@ help:
 	@echo "... tests/multiple_read_multiple_write.o"
 	@echo "... tests/multiple_read_multiple_write.i"
 	@echo "... tests/multiple_read_multiple_write.s"
+	@echo "... tests/multiple_read_multiple_write_with_isempty.o"
+	@echo "... tests/multiple_read_multiple_write_with_isempty.i"
+	@echo "... tests/multiple_read_multiple_write_with_isempty.s"
 	@echo "... tests/multiple_read_one_write.o"
 	@echo "... tests/multiple_read_one_write.i"
 	@echo "... tests/multiple_read_one_write.s"
+	@echo "... tests/multiple_read_one_write_with_isempty.o"
+	@echo "... tests/multiple_read_one_write_with_isempty.i"
+	@echo "... tests/multiple_read_one_write_with_isempty.s"
 	@echo "... tests/one_read_multiple_write.o"
 	@echo "... tests/one_read_multiple_write.i"
 	@echo "... tests/one_read_multiple_write.s"
+	@echo "... tests/one_read_multiple_write_with_isempty.o"
+	@echo "... tests/one_read_multiple_write_with_isempty.i"
+	@echo "... tests/one_read_multiple_write_with_isempty.s"
 	@echo "... tests/one_read_one_write_tester.o"
 	@echo "... tests/one_read_one_write_tester.i"
 	@echo "... tests/one_read_one_write_tester.s"
+	@echo "... tests/one_read_one_write_tester_with_isempty.o"
+	@echo "... tests/one_read_one_write_tester_with_isempty.i"
+	@echo "... tests/one_read_one_write_tester_with_isempty.s"
 .PHONY : help
 
 

@@ -127,7 +127,6 @@ bool LLQueue_is_empty(LLQueue *queue) { // Basically same as LLQueue_pop
                 atomic_compare_exchange_strong(&queue->tail, &last,
                                                next); // Safe
             } else {
-                Value value = next->item; // Next is protected so this is safe.
                 if (atomic_compare_exchange_strong(&queue->head, &first,
                                                    next)) {
                     HazardPointer_clear(&queue->hp);

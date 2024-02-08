@@ -30,6 +30,8 @@ add_library(err tests/err.c)
 
 file(GLOB TEST_SOURCES "tests/*.c")
 file(GLOB TO_REMOVE "tests/err.c")
+# file(GLOB TO_REMOVE "tests/multiple_read_multiple_write.c")
+# file(GLOB TO_REMOVE "tests/multiple_read_multiple_write_with_isempty.c")
 list(REMOVE_ITEM TEST_SOURCES ${TO_REMOVE}) # pliki ktorych nie chcemy kompilowac
 
 function(add_test_executable TEST_SOURCE)

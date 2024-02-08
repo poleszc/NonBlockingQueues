@@ -70,9 +70,13 @@ all: CMakeFiles/queues.dir/all
 all: CMakeFiles/simpleTester.dir/all
 all: CMakeFiles/err.dir/all
 all: CMakeFiles/test_multiple_read_multiple_write.dir/all
+all: CMakeFiles/test_multiple_read_multiple_write_with_isempty.dir/all
 all: CMakeFiles/test_multiple_read_one_write.dir/all
+all: CMakeFiles/test_multiple_read_one_write_with_isempty.dir/all
 all: CMakeFiles/test_one_read_multiple_write.dir/all
+all: CMakeFiles/test_one_read_multiple_write_with_isempty.dir/all
 all: CMakeFiles/test_one_read_one_write_tester.dir/all
+all: CMakeFiles/test_one_read_one_write_tester_with_isempty.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -84,9 +88,13 @@ clean: CMakeFiles/queues.dir/clean
 clean: CMakeFiles/simpleTester.dir/clean
 clean: CMakeFiles/err.dir/clean
 clean: CMakeFiles/test_multiple_read_multiple_write.dir/clean
+clean: CMakeFiles/test_multiple_read_multiple_write_with_isempty.dir/clean
 clean: CMakeFiles/test_multiple_read_one_write.dir/clean
+clean: CMakeFiles/test_multiple_read_one_write_with_isempty.dir/clean
 clean: CMakeFiles/test_one_read_multiple_write.dir/clean
+clean: CMakeFiles/test_one_read_multiple_write_with_isempty.dir/clean
 clean: CMakeFiles/test_one_read_one_write_tester.dir/clean
+clean: CMakeFiles/test_one_read_one_write_tester_with_isempty.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -119,8 +127,8 @@ CMakeFiles/queues.dir/clean:
 # Target rules for target CMakeFiles/simpleTester.dir
 
 # All Build rule for target.
-CMakeFiles/simpleTester.dir/all: CMakeFiles/err.dir/all
 CMakeFiles/simpleTester.dir/all: CMakeFiles/queues.dir/all
+CMakeFiles/simpleTester.dir/all: CMakeFiles/err.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/simpleTester.dir/build.make CMakeFiles/simpleTester.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/simpleTester.dir/build.make CMakeFiles/simpleTester.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/build/CMakeFiles --progress-num=8,9 "Built target simpleTester"
@@ -172,8 +180,8 @@ CMakeFiles/err.dir/clean:
 # Target rules for target CMakeFiles/test_multiple_read_multiple_write.dir
 
 # All Build rule for target.
-CMakeFiles/test_multiple_read_multiple_write.dir/all: CMakeFiles/err.dir/all
 CMakeFiles/test_multiple_read_multiple_write.dir/all: CMakeFiles/queues.dir/all
+CMakeFiles/test_multiple_read_multiple_write.dir/all: CMakeFiles/err.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_multiple_read_multiple_write.dir/build.make CMakeFiles/test_multiple_read_multiple_write.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_multiple_read_multiple_write.dir/build.make CMakeFiles/test_multiple_read_multiple_write.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/build/CMakeFiles --progress-num=10,11 "Built target test_multiple_read_multiple_write"
@@ -196,14 +204,41 @@ CMakeFiles/test_multiple_read_multiple_write.dir/clean:
 .PHONY : CMakeFiles/test_multiple_read_multiple_write.dir/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/test_multiple_read_multiple_write_with_isempty.dir
+
+# All Build rule for target.
+CMakeFiles/test_multiple_read_multiple_write_with_isempty.dir/all: CMakeFiles/queues.dir/all
+CMakeFiles/test_multiple_read_multiple_write_with_isempty.dir/all: CMakeFiles/err.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_multiple_read_multiple_write_with_isempty.dir/build.make CMakeFiles/test_multiple_read_multiple_write_with_isempty.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_multiple_read_multiple_write_with_isempty.dir/build.make CMakeFiles/test_multiple_read_multiple_write_with_isempty.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/build/CMakeFiles --progress-num=12,13 "Built target test_multiple_read_multiple_write_with_isempty"
+.PHONY : CMakeFiles/test_multiple_read_multiple_write_with_isempty.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/test_multiple_read_multiple_write_with_isempty.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/build/CMakeFiles 9
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_multiple_read_multiple_write_with_isempty.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/build/CMakeFiles 0
+.PHONY : CMakeFiles/test_multiple_read_multiple_write_with_isempty.dir/rule
+
+# Convenience name for target.
+test_multiple_read_multiple_write_with_isempty: CMakeFiles/test_multiple_read_multiple_write_with_isempty.dir/rule
+.PHONY : test_multiple_read_multiple_write_with_isempty
+
+# clean rule for target.
+CMakeFiles/test_multiple_read_multiple_write_with_isempty.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_multiple_read_multiple_write_with_isempty.dir/build.make CMakeFiles/test_multiple_read_multiple_write_with_isempty.dir/clean
+.PHONY : CMakeFiles/test_multiple_read_multiple_write_with_isempty.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/test_multiple_read_one_write.dir
 
 # All Build rule for target.
-CMakeFiles/test_multiple_read_one_write.dir/all: CMakeFiles/err.dir/all
 CMakeFiles/test_multiple_read_one_write.dir/all: CMakeFiles/queues.dir/all
+CMakeFiles/test_multiple_read_one_write.dir/all: CMakeFiles/err.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_multiple_read_one_write.dir/build.make CMakeFiles/test_multiple_read_one_write.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_multiple_read_one_write.dir/build.make CMakeFiles/test_multiple_read_one_write.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/build/CMakeFiles --progress-num=12,13 "Built target test_multiple_read_one_write"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/build/CMakeFiles --progress-num=14,15 "Built target test_multiple_read_one_write"
 .PHONY : CMakeFiles/test_multiple_read_one_write.dir/all
 
 # Build rule for subdir invocation for target.
@@ -223,14 +258,41 @@ CMakeFiles/test_multiple_read_one_write.dir/clean:
 .PHONY : CMakeFiles/test_multiple_read_one_write.dir/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/test_multiple_read_one_write_with_isempty.dir
+
+# All Build rule for target.
+CMakeFiles/test_multiple_read_one_write_with_isempty.dir/all: CMakeFiles/queues.dir/all
+CMakeFiles/test_multiple_read_one_write_with_isempty.dir/all: CMakeFiles/err.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_multiple_read_one_write_with_isempty.dir/build.make CMakeFiles/test_multiple_read_one_write_with_isempty.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_multiple_read_one_write_with_isempty.dir/build.make CMakeFiles/test_multiple_read_one_write_with_isempty.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/build/CMakeFiles --progress-num=16,17 "Built target test_multiple_read_one_write_with_isempty"
+.PHONY : CMakeFiles/test_multiple_read_one_write_with_isempty.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/test_multiple_read_one_write_with_isempty.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/build/CMakeFiles 9
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_multiple_read_one_write_with_isempty.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/build/CMakeFiles 0
+.PHONY : CMakeFiles/test_multiple_read_one_write_with_isempty.dir/rule
+
+# Convenience name for target.
+test_multiple_read_one_write_with_isempty: CMakeFiles/test_multiple_read_one_write_with_isempty.dir/rule
+.PHONY : test_multiple_read_one_write_with_isempty
+
+# clean rule for target.
+CMakeFiles/test_multiple_read_one_write_with_isempty.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_multiple_read_one_write_with_isempty.dir/build.make CMakeFiles/test_multiple_read_one_write_with_isempty.dir/clean
+.PHONY : CMakeFiles/test_multiple_read_one_write_with_isempty.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/test_one_read_multiple_write.dir
 
 # All Build rule for target.
-CMakeFiles/test_one_read_multiple_write.dir/all: CMakeFiles/err.dir/all
 CMakeFiles/test_one_read_multiple_write.dir/all: CMakeFiles/queues.dir/all
+CMakeFiles/test_one_read_multiple_write.dir/all: CMakeFiles/err.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_one_read_multiple_write.dir/build.make CMakeFiles/test_one_read_multiple_write.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_one_read_multiple_write.dir/build.make CMakeFiles/test_one_read_multiple_write.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/build/CMakeFiles --progress-num=14,15 "Built target test_one_read_multiple_write"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/build/CMakeFiles --progress-num=18,19 "Built target test_one_read_multiple_write"
 .PHONY : CMakeFiles/test_one_read_multiple_write.dir/all
 
 # Build rule for subdir invocation for target.
@@ -250,14 +312,41 @@ CMakeFiles/test_one_read_multiple_write.dir/clean:
 .PHONY : CMakeFiles/test_one_read_multiple_write.dir/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/test_one_read_multiple_write_with_isempty.dir
+
+# All Build rule for target.
+CMakeFiles/test_one_read_multiple_write_with_isempty.dir/all: CMakeFiles/queues.dir/all
+CMakeFiles/test_one_read_multiple_write_with_isempty.dir/all: CMakeFiles/err.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_one_read_multiple_write_with_isempty.dir/build.make CMakeFiles/test_one_read_multiple_write_with_isempty.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_one_read_multiple_write_with_isempty.dir/build.make CMakeFiles/test_one_read_multiple_write_with_isempty.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/build/CMakeFiles --progress-num=20,21 "Built target test_one_read_multiple_write_with_isempty"
+.PHONY : CMakeFiles/test_one_read_multiple_write_with_isempty.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/test_one_read_multiple_write_with_isempty.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/build/CMakeFiles 9
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_one_read_multiple_write_with_isempty.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/build/CMakeFiles 0
+.PHONY : CMakeFiles/test_one_read_multiple_write_with_isempty.dir/rule
+
+# Convenience name for target.
+test_one_read_multiple_write_with_isempty: CMakeFiles/test_one_read_multiple_write_with_isempty.dir/rule
+.PHONY : test_one_read_multiple_write_with_isempty
+
+# clean rule for target.
+CMakeFiles/test_one_read_multiple_write_with_isempty.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_one_read_multiple_write_with_isempty.dir/build.make CMakeFiles/test_one_read_multiple_write_with_isempty.dir/clean
+.PHONY : CMakeFiles/test_one_read_multiple_write_with_isempty.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/test_one_read_one_write_tester.dir
 
 # All Build rule for target.
-CMakeFiles/test_one_read_one_write_tester.dir/all: CMakeFiles/err.dir/all
 CMakeFiles/test_one_read_one_write_tester.dir/all: CMakeFiles/queues.dir/all
+CMakeFiles/test_one_read_one_write_tester.dir/all: CMakeFiles/err.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_one_read_one_write_tester.dir/build.make CMakeFiles/test_one_read_one_write_tester.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_one_read_one_write_tester.dir/build.make CMakeFiles/test_one_read_one_write_tester.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/build/CMakeFiles --progress-num=16,17 "Built target test_one_read_one_write_tester"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/build/CMakeFiles --progress-num=22,23 "Built target test_one_read_one_write_tester"
 .PHONY : CMakeFiles/test_one_read_one_write_tester.dir/all
 
 # Build rule for subdir invocation for target.
@@ -275,6 +364,33 @@ test_one_read_one_write_tester: CMakeFiles/test_one_read_one_write_tester.dir/ru
 CMakeFiles/test_one_read_one_write_tester.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_one_read_one_write_tester.dir/build.make CMakeFiles/test_one_read_one_write_tester.dir/clean
 .PHONY : CMakeFiles/test_one_read_one_write_tester.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/test_one_read_one_write_tester_with_isempty.dir
+
+# All Build rule for target.
+CMakeFiles/test_one_read_one_write_tester_with_isempty.dir/all: CMakeFiles/queues.dir/all
+CMakeFiles/test_one_read_one_write_tester_with_isempty.dir/all: CMakeFiles/err.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_one_read_one_write_tester_with_isempty.dir/build.make CMakeFiles/test_one_read_one_write_tester_with_isempty.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_one_read_one_write_tester_with_isempty.dir/build.make CMakeFiles/test_one_read_one_write_tester_with_isempty.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/build/CMakeFiles --progress-num=24,25 "Built target test_one_read_one_write_tester_with_isempty"
+.PHONY : CMakeFiles/test_one_read_one_write_tester_with_isempty.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/test_one_read_one_write_tester_with_isempty.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/build/CMakeFiles 9
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_one_read_one_write_tester_with_isempty.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/build/CMakeFiles 0
+.PHONY : CMakeFiles/test_one_read_one_write_tester_with_isempty.dir/rule
+
+# Convenience name for target.
+test_one_read_one_write_tester_with_isempty: CMakeFiles/test_one_read_one_write_tester_with_isempty.dir/rule
+.PHONY : test_one_read_one_write_tester_with_isempty
+
+# clean rule for target.
+CMakeFiles/test_one_read_one_write_tester_with_isempty.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_one_read_one_write_tester_with_isempty.dir/build.make CMakeFiles/test_one_read_one_write_tester_with_isempty.dir/clean
+.PHONY : CMakeFiles/test_one_read_one_write_tester_with_isempty.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

@@ -11,7 +11,7 @@ static bool DEBUG = false;
 #endif
 
 #define DEBUG(expression) do { \
-    if (debug) { \
+    if (DEBUG) { \
         expression; \
     } \
 } while(0)

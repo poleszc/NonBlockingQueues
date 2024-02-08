@@ -51,5 +51,7 @@ CMakeFiles/test_one_read_multiple_write.dir/tests/one_read_multiple_write.c.o: \
  /home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/tests/../HazardPointer.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stdatomic.h \
  /home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/tests/../LLQueue.h \
+ /home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/tests/../RingsQueue.h \
  /home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/tests/../SimpleQueue.h \
- /home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/tests/../RingsQueue.h
+ /home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/tests/err.h \
+ /usr/include/assert.h

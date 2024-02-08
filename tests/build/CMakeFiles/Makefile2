@@ -119,8 +119,8 @@ CMakeFiles/queues.dir/clean:
 # Target rules for target CMakeFiles/simpleTester.dir
 
 # All Build rule for target.
-CMakeFiles/simpleTester.dir/all: CMakeFiles/queues.dir/all
 CMakeFiles/simpleTester.dir/all: CMakeFiles/err.dir/all
+CMakeFiles/simpleTester.dir/all: CMakeFiles/queues.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/simpleTester.dir/build.make CMakeFiles/simpleTester.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/simpleTester.dir/build.make CMakeFiles/simpleTester.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/build/CMakeFiles --progress-num=8,9 "Built target simpleTester"
@@ -172,8 +172,8 @@ CMakeFiles/err.dir/clean:
 # Target rules for target CMakeFiles/test_multiple_read_multiple_write.dir
 
 # All Build rule for target.
-CMakeFiles/test_multiple_read_multiple_write.dir/all: CMakeFiles/queues.dir/all
 CMakeFiles/test_multiple_read_multiple_write.dir/all: CMakeFiles/err.dir/all
+CMakeFiles/test_multiple_read_multiple_write.dir/all: CMakeFiles/queues.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_multiple_read_multiple_write.dir/build.make CMakeFiles/test_multiple_read_multiple_write.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_multiple_read_multiple_write.dir/build.make CMakeFiles/test_multiple_read_multiple_write.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/build/CMakeFiles --progress-num=10,11 "Built target test_multiple_read_multiple_write"
@@ -199,8 +199,8 @@ CMakeFiles/test_multiple_read_multiple_write.dir/clean:
 # Target rules for target CMakeFiles/test_multiple_read_one_write.dir
 
 # All Build rule for target.
-CMakeFiles/test_multiple_read_one_write.dir/all: CMakeFiles/queues.dir/all
 CMakeFiles/test_multiple_read_one_write.dir/all: CMakeFiles/err.dir/all
+CMakeFiles/test_multiple_read_one_write.dir/all: CMakeFiles/queues.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_multiple_read_one_write.dir/build.make CMakeFiles/test_multiple_read_one_write.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_multiple_read_one_write.dir/build.make CMakeFiles/test_multiple_read_one_write.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/build/CMakeFiles --progress-num=12,13 "Built target test_multiple_read_one_write"
@@ -226,8 +226,8 @@ CMakeFiles/test_multiple_read_one_write.dir/clean:
 # Target rules for target CMakeFiles/test_one_read_multiple_write.dir
 
 # All Build rule for target.
-CMakeFiles/test_one_read_multiple_write.dir/all: CMakeFiles/queues.dir/all
 CMakeFiles/test_one_read_multiple_write.dir/all: CMakeFiles/err.dir/all
+CMakeFiles/test_one_read_multiple_write.dir/all: CMakeFiles/queues.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_one_read_multiple_write.dir/build.make CMakeFiles/test_one_read_multiple_write.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_one_read_multiple_write.dir/build.make CMakeFiles/test_one_read_multiple_write.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/build/CMakeFiles --progress-num=14,15 "Built target test_one_read_multiple_write"
@@ -253,8 +253,8 @@ CMakeFiles/test_one_read_multiple_write.dir/clean:
 # Target rules for target CMakeFiles/test_one_read_one_write_tester.dir
 
 # All Build rule for target.
-CMakeFiles/test_one_read_one_write_tester.dir/all: CMakeFiles/queues.dir/all
 CMakeFiles/test_one_read_one_write_tester.dir/all: CMakeFiles/err.dir/all
+CMakeFiles/test_one_read_one_write_tester.dir/all: CMakeFiles/queues.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_one_read_one_write_tester.dir/build.make CMakeFiles/test_one_read_one_write_tester.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_one_read_one_write_tester.dir/build.make CMakeFiles/test_one_read_one_write_tester.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/tests/build/CMakeFiles --progress-num=16,17 "Built target test_one_read_one_write_tester"

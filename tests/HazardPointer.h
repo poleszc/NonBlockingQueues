@@ -10,6 +10,7 @@ static const int RETIRED_THRESHOLD = MAX_THREADS;
 struct HazardPointer {
     _Atomic(void *) pointer[MAX_THREADS];
     void *retired[MAX_THREADS][MAX_THREADS]; // Retired pointers
+    int count[MAX_THREADS]; // How many retired are in thread's retired set
 };
 typedef struct HazardPointer HazardPointer;
 

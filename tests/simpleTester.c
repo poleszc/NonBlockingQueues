@@ -1,12 +1,11 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <threads.h>
 
 #include "BLQueue.h"
-#include "RingsQueue.h"
 #include "HazardPointer.h"
 #include "LLQueue.h"
 #include "SimpleQueue.h"
+#include "RingsQueue.h"
 
 // A structure holding function pointers to methods of some queue type.
 struct QueueVTable {
@@ -24,9 +23,9 @@ typedef struct QueueVTable QueueVTable;
 
 const QueueVTable queueVTables[] = {
     { "SimpleQueue", SimpleQueue_new, SimpleQueue_push, SimpleQueue_pop, SimpleQueue_is_empty, SimpleQueue_delete },
-    { "RingsQueue", RingsQueue_new, RingsQueue_push, RingsQueue_pop, RingsQueue_is_empty, RingsQueue_delete },
     { "LLQueue", LLQueue_new, LLQueue_push, LLQueue_pop, LLQueue_is_empty, LLQueue_delete },
-    { "BLQueue", BLQueue_new, BLQueue_push, BLQueue_pop, BLQueue_is_empty, BLQueue_delete }
+    { "BLQueue", BLQueue_new, BLQueue_push, BLQueue_pop, BLQueue_is_empty, BLQueue_delete },
+    { "RingsQueue", RingsQueue_new, RingsQueue_push, RingsQueue_pop, RingsQueue_is_empty, RingsQueue_delete }
 };
 
 #pragma GCC diagnostic pop
@@ -39,6 +38,7 @@ void basic_test(QueueVTable Q)
     Q.push(queue, 1);
     Q.push(queue, 2);
     Q.push(queue, 3);
+    printf("pushed 1, 2, 3\n");
     Value a = Q.pop(queue);
     Value b = Q.pop(queue);
     Value c = Q.pop(queue);
@@ -52,10 +52,10 @@ int main(void)
     printf("Hello, World!\n");
 
     for (int i = 0; i < sizeof(queueVTables) / sizeof(QueueVTable); ++i) {
-            QueueVTable Q = queueVTables[i];
-            printf("Queue type: %s\n", Q.name);
-            basic_test(Q);
-        }
+        QueueVTable Q = queueVTables[i];
+        printf("Queue type: %s\n", Q.name);
+        basic_test(Q);
+    }
 
     return 0;
 }

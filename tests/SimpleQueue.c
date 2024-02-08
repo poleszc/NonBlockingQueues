@@ -1,9 +1,16 @@
 #include <assert.h>
 #include <malloc.h>
 #include <pthread.h>
+#include <stdlib.h> // TODO: Remove that
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <syscall.h>
 
 #include "HazardPointer.h" // TODO: Remove that
 #include "SimpleQueue.h"
+
+//TODO: Atomic_store somewhere???
 
 struct SimpleQueueNode;
 typedef struct SimpleQueueNode SimpleQueueNode;
@@ -20,7 +27,7 @@ SimpleQueueNode *SimpleQueueNode_new(Value item) {
     assert(node != NULL);
 
     node->item = item;
-    node->next = NULL;
+    atomic_init(&node->next, NULL);
     return node;
 }
 
@@ -47,6 +54,9 @@ SimpleQueue *SimpleQueue_new(void) {
 
 void SimpleQueue_delete(SimpleQueue *queue) {
     // TODO: Maybe put that in one mutex. Cause it will to the exact same thing.
+    // pid_t tid = syscall(SYS_gettid); // TODO: Remove that
+    // printf("SimpleQueueDelete from: %d\n", tid);
+
     SimpleQueueNode* node = queue->head;
 
     while (node) {
@@ -62,28 +72,42 @@ void SimpleQueue_delete(SimpleQueue *queue) {
 
 void SimpleQueue_push(SimpleQueue *queue, Value item) {
 
+    
     SimpleQueueNode *node = SimpleQueueNode_new(item);
-    assert(pthread_mutex_lock(&queue->head_mtx) >= 0); // TODO: Maybe before allocation
-    queue->head->next = node;
-    queue->head = node;
-    assert(pthread_mutex_unlock(&queue->head_mtx) >= 0);
+    assert(pthread_mutex_lock(&queue->tail_mtx) >= 0); // TODO: Maybe before allocation
+    
+    // pid_t tid = syscall(SYS_gettid); // TODO: Remove that
+    // printf("SimpleQueuePush from: %d\n", tid);
+    // printf("AA\n");
+    atomic_store(&queue->tail->next, node);
+    // atomic_store(&queue->head, node);
+    // queue->head->next = node;
+    // printf("AA: %p\n", queue);
+    queue->tail = node;
+    // printf("AA\n");
+    assert(pthread_mutex_unlock(&queue->tail_mtx) >= 0);
 }
 
 Value SimpleQueue_pop(SimpleQueue *queue) {
     // TODO: Maybe put that only in the else statement
-    assert(pthread_mutex_lock(&queue->tail_mtx) >= 0);
-    SimpleQueueNode* last = queue->tail;
+
+    assert(pthread_mutex_lock(&queue->head_mtx) >= 0);
+    
+    // pid_t tid = syscall(SYS_gettid); // TODO: Remove that
+    // printf("SimpleQueuePop from: %d\n", tid);
+
+    SimpleQueueNode* last = queue->head;
     SimpleQueueNode* next = atomic_load(&last->next); 
 
     if (next == NULL) {
-        assert(pthread_mutex_unlock(&queue->tail_mtx) >= 0);
+        assert(pthread_mutex_unlock(&queue->head_mtx) >= 0);
         return EMPTY_VALUE;
     } else {
         Value item = next->item;
-        queue->tail = next;
+        queue->head = next;
         last->next = NULL; // TODO: Maybe not needed
 
-        assert(pthread_mutex_unlock(&queue->tail_mtx) >= 0);
+        assert(pthread_mutex_unlock(&queue->head_mtx) >= 0);
         free(last);
         return item;
     }
@@ -91,7 +115,12 @@ Value SimpleQueue_pop(SimpleQueue *queue) {
 
 bool SimpleQueue_is_empty(SimpleQueue *queue) {
     pthread_mutex_lock(&queue->tail_mtx);
-    bool isEmpty = (atomic_load(&queue->tail->next) == NULL);
+    // bool isEmpty = (atomic_load(&queue->tail->next) == NULL);
+    // pid_t tid = syscall(SYS_gettid); // TODO: Remove that
+    // printf("SimpleQueueEmpty from: %d\n", tid);
+
+    Value last = queue->tail->item;
+    bool isEmpty = (last == MOCK_VALUE);
     pthread_mutex_unlock(&queue->tail_mtx);
     return isEmpty;
 }

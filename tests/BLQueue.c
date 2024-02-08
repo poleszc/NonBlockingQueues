@@ -6,9 +6,6 @@
 #include <stdint.h>
 #include <string.h>
 
-// https://github.com/DennisCGc/ringbuffer/blob/master/ringbuffer.h
-// https://github.com/DennisCGc/ringbuffer/blob/master/ringbuffer.c
-
 #include "BLQueue.h"
 #include "HazardPointer.h"
 
@@ -54,6 +51,8 @@ struct BLQueue {
 BLQueue *BLQueue_new(void) {
     BLQueue *queue = (BLQueue *)malloc(sizeof(BLQueue));
     assert(queue != NULL);
+
+    HazardPointer_initialize(&queue->hp); // TODO: Does that belong here???
 
     BLNode *node = BLQueueNode_new(EMPTY_VALUE);
     queue->head = node;

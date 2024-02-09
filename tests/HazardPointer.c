@@ -1,15 +1,6 @@
-#include <assert.h>
-#include <malloc.h>
-#include <pthread.h>
-#include <stdatomic.h>
 #include <stdbool.h>
-#include <stdint.h>
-#include <stdio.h>
 #include <stdlib.h>
-#include <sys/types.h>
-#include <syscall.h>
 #include <threads.h>
-#include <unistd.h>
 
 #include "HazardPointer.h"
 
@@ -30,13 +21,9 @@ void HazardPointer_initialize(HazardPointer *hp) {
 }
 
 void HazardPointer_finalize(HazardPointer *hp) {
-    // printf("HAZARD FINALIZE\n");
     for (int i = 0; i < _num_threads; i++) {
-        // printf("Freeing thread %d\n", i);
         for (int j = 0; j < MAX_THREADS; j++) {
-            // printf("Ret %d, %d: %p\n", i, j, hp->retired[i][j]);
             if (hp->retired[i][j]) {
-                // printf("FREE\n");
                 free(hp->retired[i][j]);
                 hp->retired[i][j] = NULL;
             }

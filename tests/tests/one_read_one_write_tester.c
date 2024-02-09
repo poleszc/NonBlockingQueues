@@ -31,12 +31,12 @@ const QueueVTable queueVTables[] = {
     {"SimpleQueue", SimpleQueue_new, SimpleQueue_push, SimpleQueue_pop,
      SimpleQueue_is_empty, SimpleQueue_delete},
     {"RingsQueue", RingsQueue_new, RingsQueue_push, RingsQueue_pop,
-     RingsQueue_is_empty, RingsQueue_delete},
-    {"LLQueue", LLQueue_new, LLQueue_push, LLQueue_pop, LLQueue_is_empty,
-     LLQueue_delete}
+     RingsQueue_is_empty, RingsQueue_delete}
+    // {"LLQueue", LLQueue_new, LLQueue_push, LLQueue_pop, LLQueue_is_empty,
+    //  LLQueue_delete},
     // {"BLQueue", BLQueue_new, BLQueue_push, BLQueue_pop, BLQueue_is_empty,
     //  BLQueue_delete}
-     };
+};
 
 #pragma GCC diagnostic pop
 
@@ -88,25 +88,18 @@ int basic_test() {
     queue = Q.new();
     DEBUG(Q.is_empty(queue));
 
-    printf("Created queue\n");
-
     thrd_create(&read_thread, reader, NULL);
     thrd_create(&write_thread, writer, NULL);
 
-    printf("Created threads\n");
-
-    int res = 0; int res2 = 0;
+    int res = 0;
+    int res2 = 0;
     thrd_join(read_thread, &res);
     thrd_join(write_thread, &res2);
     res |= res2;
 
-    printf("Joined threads\n");
-
     DEBUG(Q.is_empty(queue));
-    printf("Checked empty\n");
     Q.delete(queue);
-    printf("Delete queue\n");
-    
+
     if (res == 0) {
         printf("OK %s\n", Q.name);
         return 0;

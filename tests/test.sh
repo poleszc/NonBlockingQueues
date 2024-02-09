@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 # Check if build folder exists
 if [ -d "build" ]; then
     # Remove build folder if it exists
@@ -14,7 +15,6 @@ if [ $? -ne 0 ]; then
     echo "COMPILATION FAILED: Failed to create build directory."
     exit 1
 fi
-
 # Check if the script is run with DEBUG flag
 if [ "$1" == "DEBUG" ]; then
     # Run cmake with DEBUG flag
@@ -56,7 +56,13 @@ failed_tests=()
 # Run each test prefixed with "test_"
 for test_file in test_*; do
     echo -e "Running: $test_file"
-    ./"$test_file"
+    if [ -z ${VALGRIND+x} ]; then
+        ./"$test_file"
+    else
+        echo "VALGRING ON"
+        valgrind -q --track-origins=yes --trace-children=yes --leak-check=full --show-leak-kinds=all ./"$test_file"
+    fi
+
     if [ $? -eq 0 ]; then
         echo -e "\e[32m$test_file: OK\e[0m"
         passed_tests+=("$test_file: OK")

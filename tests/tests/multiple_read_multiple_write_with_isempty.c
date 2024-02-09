@@ -53,7 +53,7 @@ void *emptyness_checker(void *arg) {
                            WRITERS + READERS + EMPTYNESS_CHECKERS);
     while (atomic_load(&counter) < ELEMENTS) {
         bool is_empty = Q.is_empty(queue);
-        if (is_empty) {
+        if (!is_empty) {
             emptyness_counter++;
         }
     }

@@ -33,8 +33,8 @@ const QueueVTable queueVTables[] = {
      SimpleQueue_is_empty, SimpleQueue_delete},
     {"LLQueue", LLQueue_new, LLQueue_push, LLQueue_pop, LLQueue_is_empty,
      LLQueue_delete},
-    { "BLQueue", BLQueue_new, BLQueue_push, BLQueue_pop, BLQueue_is_empty,
-    BLQueue_delete },
+    {"BLQueue", BLQueue_new, BLQueue_push, BLQueue_pop, BLQueue_is_empty,
+     BLQueue_delete},
     {"RingsQueue", RingsQueue_new, RingsQueue_push, RingsQueue_pop,
      RingsQueue_is_empty, RingsQueue_delete}};
 
@@ -50,7 +50,7 @@ void *emptyness_checker(void *arg) {
     HazardPointer_register(id + 2, 2 + EMPTYNESS_CHECKERS);
     while (atomic_load(&counter) < ELEMENTS) {
         bool is_empty = Q.is_empty(queue);
-        if (is_empty) {
+        if (!is_empty) {
             emptyness_counter++;
         }
     }

@@ -55,7 +55,7 @@ void *emptyness_checker(void *arg) {
     HazardPointer_register(id + READERS + 1, READERS + 1 + EMPTYNESS_CHECKERS);
     while (atomic_load(&counter) < ELEMENTS) {
         bool is_empty = Q.is_empty(queue);
-        if (is_empty) {
+        if (!is_empty) {
             emptyness_counter++;
         }
     }

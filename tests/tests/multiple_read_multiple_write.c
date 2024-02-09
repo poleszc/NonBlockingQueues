@@ -14,6 +14,7 @@
 #define ELEMENTS 100
 
 _Atomic(int) counter = 0;
+_Atomic(int) pop_counter = 0;
 
 // A structure holding function pointers to methods of some queue type.
 struct QueueVTable {
@@ -62,13 +63,14 @@ void *reader(void *arg) {
     int id = (int)arg;
 
     HazardPointer_register(WRITERS + id, WRITERS + READERS);
-    int my_counter = 0;
+    // int my_counter = 0;
     int anwsers[WRITERS][ELEMENTS];
     int indexes[WRITERS];
     for (int i = 0; i < WRITERS; ++i) {
         indexes[i] = 0;
     }
-    while (my_counter < ELEMENTS * WRITERS ||
+
+    while (atomic_load(&pop_counter) < ELEMENTS * WRITERS ||
            atomic_load(&counter) < ELEMENTS * WRITERS) {
         Value item = Q.pop(queue);
         if (item != EMPTY_VALUE) {
@@ -78,14 +80,14 @@ void *reader(void *arg) {
             // printf("writer_id: %d, item: %d\n", writer_id, item);
             anwsers[writer_id][indexes[writer_id]] = item;
             indexes[writer_id]++;
-            my_counter++;
+            // my_counter++;
+            atomic_fetch_add(&pop_counter, 1);
         }
     }
-    printf("A\n");
 
     for (int i = 0; i < WRITERS; ++i) {
-        for (int j = 1; j < ELEMENTS && anwsers[i][j]; ++j) {
-            if (anwsers[i][j] < anwsers[i][j - 1]) {
+        for (int j = 1; j < indexes[i] && anwsers[i][j]; ++j) {
+            if (anwsers[i][j] <= anwsers[i][j - 1]) {
                 printf("not sorted\n");
                 return NULL;
             }
@@ -99,19 +101,25 @@ void *reader(void *arg) {
 int basic_test() {
     // run threads
     thrd_t write_threads[WRITERS];
-    thrd_t read_thread;
+    thrd_t read_threads[READERS];
     queue = Q.new();
     DEBUG(Q.is_empty(queue));
+    
+    for (int i = 0; i < READERS; ++i) {
+        thrd_create(&read_threads[i], reader, (void *)i);
+    }
 
-    thrd_create(&read_thread, reader, NULL);
     for (int i = 0; i < WRITERS; ++i) {
         thrd_create(&write_threads[i], writer, (void *)i);
     }
 
     int res = 0;
-    thrd_join(read_thread, &res);
+    int res2 = 0;
     for (int i = 0; i < WRITERS; ++i) {
-        int res2 = 0;
+        thrd_join(read_threads[i], &res2);
+        res |= res2;
+    }
+    for (int i = 0; i < WRITERS; ++i) {
         thrd_join(write_threads[i], &res2);
         res |= res2;
     }

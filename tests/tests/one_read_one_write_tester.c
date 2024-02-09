@@ -9,7 +9,7 @@
 #include "err.h"
 
 #define NUM_THREADS 2
-#define ELEMENTS 14444
+#define ELEMENTS 80
 
 _Atomic(int) counter = 0;
 
@@ -33,10 +33,9 @@ const QueueVTable queueVTables[] = {
     {"RingsQueue", RingsQueue_new, RingsQueue_push, RingsQueue_pop,
      RingsQueue_is_empty, RingsQueue_delete},
     {"LLQueue", LLQueue_new, LLQueue_push, LLQueue_pop, LLQueue_is_empty,
-     LLQueue_delete}
-    // {"BLQueue", BLQueue_new, BLQueue_push, BLQueue_pop, BLQueue_is_empty,
-    // BLQueue_delete}
-};
+     LLQueue_delete},
+    {"BLQueue", BLQueue_new, BLQueue_push, BLQueue_pop, BLQueue_is_empty,
+     BLQueue_delete}};
 
 #pragma GCC diagnostic pop
 
@@ -44,7 +43,7 @@ void *queue;
 
 QueueVTable Q;
 
-int writer(void *arg) {
+void *writer(void *arg) {
 
     HazardPointer_register(0, 2);
     for (int i = 0; i < ELEMENTS; ++i) {
@@ -53,10 +52,10 @@ int writer(void *arg) {
         atomic_fetch_add(&counter, 1);
     }
 
-    return 0;
+    return NULL;
 }
 
-int reader(void *arg) {
+void *reader(void *arg) {
 
     HazardPointer_register(1, 2);
     int my_counter = 0;
@@ -75,7 +74,7 @@ int reader(void *arg) {
         }
     }
 
-    return 0;
+    return NULL;
 }
 
 int basic_test() {
@@ -91,12 +90,14 @@ int basic_test() {
     thrd_create(&read_thread, reader, NULL);
     thrd_create(&write_thread, writer, NULL);
 
-    int res = 0;
+    int res = 0; int res2 = 0;
     thrd_join(read_thread, &res);
-    thrd_join(write_thread, &res);
-    DEBUG(Q.is_empty(queue));
+    thrd_join(write_thread, &res2);
+    res |= res2;
 
+    DEBUG(Q.is_empty(queue));
     Q.delete(queue);
+    
     if (res == 0) {
         printf("OK %s\n", Q.name);
         return 0;

@@ -126,10 +126,16 @@ int basic_test() {
     int res2;
     for (int i = 0; i < READERS; ++i) {
         thrd_join(read_threads[i], &res2);
+        if (res2 != 0) {
+            printf("Jeblo read %d %d\n", i, res2);
+        }
         res |= res2;
     }
 
     thrd_join(write_thread, &res2);
+    if (res2 != 0) {
+        printf("Jeblo write %d\n", res2);
+    }
     res |= res2;
 
     for (int i = 0; i < EMPTYNESS_CHECKERS; ++i) {
@@ -144,6 +150,8 @@ int basic_test() {
         printf("%d ", emptyness_checkers_results[i]);
     }
     printf("\n");
+
+    return res;
 }
 
 int main(void) {

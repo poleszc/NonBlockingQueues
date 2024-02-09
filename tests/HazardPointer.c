@@ -30,11 +30,16 @@ void HazardPointer_initialize(HazardPointer *hp) {
 }
 
 void HazardPointer_finalize(HazardPointer *hp) {
-    // Each thread free's its own retired set.
-    for (int i = 0; i < MAX_THREADS; i++) {
-        if (hp->retired[_thread_id][i]) {
-            free(hp->retired[_thread_id][i]);
-            hp->retired[_thread_id][i] = NULL;
+    // printf("HAZARD FINALIZE\n");
+    for (int i = 0; i < _num_threads; i++) {
+        // printf("Freeing thread %d\n", i);
+        for (int j = 0; j < MAX_THREADS; j++) {
+            // printf("Ret %d, %d: %p\n", i, j, hp->retired[i][j]);
+            if (hp->retired[i][j]) {
+                // printf("FREE\n");
+                free(hp->retired[i][j]);
+                hp->retired[i][j] = NULL;
+            }
         }
     }
 }

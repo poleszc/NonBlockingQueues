@@ -29,14 +29,12 @@ typedef struct QueueVTable QueueVTable;
 #pragma GCC diagnostic ignored "-Wincompatible-pointer-types"
 
 const QueueVTable queueVTables[] = {
-    {"SimpleQueue", SimpleQueue_new, SimpleQueue_push, SimpleQueue_pop,
-     SimpleQueue_is_empty, SimpleQueue_delete},
-    // {"LLQueue", LLQueue_new, LLQueue_push, LLQueue_pop, LLQueue_is_empty,
-    //  LLQueue_delete},
-    // {"BLQueue", BLQueue_new, BLQueue_push, BLQueue_pop, BLQueue_is_empty,
-    //  BLQueue_delete},
-    {"RingsQueue", RingsQueue_new, RingsQueue_push, RingsQueue_pop,
-     RingsQueue_is_empty, RingsQueue_delete}};
+    {"SimpleQueue", SimpleQueue_new, SimpleQueue_push, SimpleQueue_pop, SimpleQueue_is_empty, SimpleQueue_delete},
+    {"RingsQueue", RingsQueue_new, RingsQueue_push, RingsQueue_pop, RingsQueue_is_empty, RingsQueue_delete},
+    {"LLQueue", LLQueue_new, LLQueue_push, LLQueue_pop, LLQueue_is_empty,
+     LLQueue_delete},
+    {"BLQueue", BLQueue_new, BLQueue_push, BLQueue_pop, BLQueue_is_empty,
+     BLQueue_delete}};
 
 #pragma GCC diagnostic pop
 
@@ -49,6 +47,7 @@ void *emptyness_checker(void *arg) {
     int emptyness_counter = 0;
     HazardPointer_register(id + 2, 2 + EMPTYNESS_CHECKERS);
     while (atomic_load(&counter) < ELEMENTS) {
+        printf("woo\n");
         bool is_empty = Q.is_empty(queue);
         if (!is_empty) {
             emptyness_counter++;
@@ -58,7 +57,6 @@ void *emptyness_checker(void *arg) {
 }
 
 void *writer(void *arg) {
-
     HazardPointer_register(0, 2 + EMPTYNESS_CHECKERS);
     for (int i = 0; i < ELEMENTS; ++i) {
 
@@ -86,6 +84,7 @@ void *reader(void *arg) {
 
 int basic_test() {
     // run threads
+    atomic_store(&counter, 0);
     thrd_t write_thread;
     thrd_t read_thread;
     thrd_t emptyness_checkers_threads[EMPTYNESS_CHECKERS];
@@ -95,21 +94,22 @@ int basic_test() {
 
     for (int i = 0; i < EMPTYNESS_CHECKERS; ++i) {
         emptyness_checkers_results[i] = 0;
-        thrd_create(&emptyness_checkers_threads[i], emptyness_checker,
-                    (void *)(long)i);
+        thrd_create(&emptyness_checkers_threads[i], emptyness_checker, (void *)(long)i);
     }
     thrd_create(&read_thread, reader, NULL);
     thrd_create(&write_thread, writer, NULL);
 
     int res = 0;
     int res2 = 0;
+    printf("A\n");
     thrd_join(read_thread, &res);
+    printf("A\n");
     thrd_join(write_thread, &res2);
     res |= res2;
 
+    printf("A\n");
     for (int i = 0; i < EMPTYNESS_CHECKERS; ++i) {
-        thrd_join(emptyness_checkers_threads[i],
-                  (void **)&emptyness_checkers_results[i]);
+        thrd_join(emptyness_checkers_threads[i], (void **)&emptyness_checkers_results[i]);
     }
 
     DEBUG(Q.is_empty(queue));

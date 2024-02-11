@@ -18,7 +18,7 @@ typedef _Atomic(LLNode *) AtomicLLNodePtr;
 
 struct LLNode {
     AtomicLLNodePtr next;
-    Value item; // TODO: This shouldn't be atomic???
+    Value item;
 };
 
 LLNode *LLQueueNode_new(Value item) {

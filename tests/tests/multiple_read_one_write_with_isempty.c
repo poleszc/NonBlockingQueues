@@ -106,6 +106,8 @@ void *reader(void *arg) {
 
 int basic_test() {
     // run threads
+    // atomic_store(&counter, 0);
+    // atomic_store(&my_counter, 0);
     thrd_t write_thread;
     thrd_t read_threads[READERS];
     thrd_t emptyness_checker_threads[EMPTYNESS_CHECKERS];

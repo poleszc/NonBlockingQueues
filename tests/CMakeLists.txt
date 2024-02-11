@@ -10,8 +10,8 @@ set(CMAKE_VERBOSE_MAKEFILE ON CACHE BOOL "ON" FORCE)
 
 set(CMAKE_C_FLAGS "-Wall -Wextra -Wpedantic -Wno-sign-compare -Wno-unused-parameter -O3 -march=native -fno-exceptions")
 
-#add_compile_options(-fsanitize=thread -Og -g)
-#add_link_options(-fsanitize=thread -Og -g)
+add_compile_options(-fsanitize=thread -Og -g)
+add_link_options(-fsanitize=thread -Og -g)
 #
 #add_compile_options(-fsanitize=address -Og -g)
 #add_link_options(-fsanitize=address -Og -g)

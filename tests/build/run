@@ -1,9 +1,0 @@
-
-# valgrind --leak-check=full --show-leak-kinds=all ./test_one_read_one_write_tester
-# valgrind --leak-check=full --show-leak-kinds=all ./test_one_read_multiple_write_tester
-valgrind --leak-check=full --show-leak-kinds=all ./test_one_read_multiple_write
-valgrind --leak-check=full --show-leak-kinds=all ./test_multiple_read_one_write
-# valgrind --leak-check=full --show-leak-kinds=all ./test_one_read_one_write_tester_with_isempty
-# valgrind --leak-check=full --show-leak-kinds=all ./test_one_read_multiple_write_tester_with_isempty
-# valgrind --leak-check=full --show-leak-kinds=all ./test_one_read_multiple_write_tester_with_isempty
-# valgrind --leak-check=full --show-leak-kinds=all ./test_multiple_read_one_write_tester_with_isempty

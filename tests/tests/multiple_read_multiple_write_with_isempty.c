@@ -33,10 +33,10 @@ typedef struct QueueVTable QueueVTable;
 const QueueVTable queueVTables[] = {
     {"SimpleQueue", SimpleQueue_new, SimpleQueue_push, SimpleQueue_pop,
      SimpleQueue_is_empty, SimpleQueue_delete},
-    // {"LLQueue", LLQueue_new, LLQueue_push, LLQueue_pop, LLQueue_is_empty,
-    //  LLQueue_delete},
-    // {"BLQueue", BLQueue_new, BLQueue_push, BLQueue_pop, BLQueue_is_empty,
-    //  BLQueue_delete},
+    {"LLQueue", LLQueue_new, LLQueue_push, LLQueue_pop, LLQueue_is_empty,
+     LLQueue_delete},
+    {"BLQueue", BLQueue_new, BLQueue_push, BLQueue_pop, BLQueue_is_empty,
+     BLQueue_delete},
     {"RingsQueue", RingsQueue_new, RingsQueue_push, RingsQueue_pop,
      RingsQueue_is_empty, RingsQueue_delete}};
 
@@ -113,6 +113,7 @@ void *reader(void *arg) {
 
 int basic_test() {
     // run threads
+    // atomic_store(&counter, 0);
     thrd_t write_threads[WRITERS];
     thrd_t read_threads[READERS];
     thrd_t emptyness_checker_threads[EMPTYNESS_CHECKERS];

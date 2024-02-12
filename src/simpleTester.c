@@ -1,5 +1,7 @@
 #include <assert.h>
 #include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
 #include <threads.h>
 
 #include "BLQueue.h"
@@ -8,8 +10,10 @@
 #include "RingsQueue.h"
 #include "SimpleQueue.h"
 
-#define ELEMENTS 10000000
-// A structure holding function pointers to methods of some queue type.
+#define ELEMENTS 300
+bool added[ELEMENTS + 1];
+bool freed[ELEMENTS + 1];
+//  structure holding function pointers to methods of some queue type.
 struct QueueVTable {
     const char *name;
     void *(*new)(void);
@@ -32,16 +36,27 @@ const QueueVTable queueVTables[] = {
 #pragma GCC diagnostic pop
 
 void basic_test(QueueVTable Q) {
+    memset(added, 0, sizeof(added));
+    memset(freed, 0, sizeof(added));
+    
     HazardPointer_register(0, 1);
     void *queue = Q.new();
 
     for (int i = 0; i < ELEMENTS; i++) {
         Q.push(queue, i + 1);
+        added[i + 1] = true;
     }
 
     for (int i = 0; i < ELEMENTS; i++) {
         Value a = Q.pop(queue);
+        freed[i + 1] = true;
         assert(a == i + 1);
+    }
+
+    for (int i = 1; i < ELEMENTS /2; i++) {
+        if (added[i] && !freed[i]) {
+            printf("This was not freed: %d\n", i);
+        }
     }
 
     // Q.push(queue, 1);
@@ -52,6 +67,8 @@ void basic_test(QueueVTable Q) {
     // Value b = Q.pop(queue);
     // Value c = Q.pop(queue);
     // printf("%lu %lu %lu\n", a, b, c);
+
+    assert(Q.is_empty(queue) == true);
 
     Q.delete(queue);
 }

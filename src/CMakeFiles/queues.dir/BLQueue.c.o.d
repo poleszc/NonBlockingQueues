@@ -26,13 +26,10 @@ CMakeFiles/queues.dir/BLQueue.c.o: \
  /usr/include/x86_64-linux-gnu/bits/stdio.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stdatomic.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h \
+ /home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/src/BLQueue.h \
+ /home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/src/common.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
- /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h /usr/include/string.h \
- /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
- /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
- /usr/include/strings.h \
- /home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/src/BLQueue.h \
- /home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/src/common.h \
+ /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
  /home/students/inf/p/po448390/2_rok/PW/zadanieZaliczenioweC2/CPThirdAssignement/src/HazardPointer.h

@@ -29,6 +29,11 @@ CMakeFiles/simpleTester.dir/simpleTester.c.o: simpleTester.c \
   /usr/include/x86_64-linux-gnu/bits/floatn.h \
   /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
   /usr/include/x86_64-linux-gnu/bits/stdio.h \
+  /usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h \
+  /usr/include/string.h \
+  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
+  /usr/include/strings.h \
   /usr/include/threads.h \
   /usr/include/time.h \
   /usr/include/x86_64-linux-gnu/bits/time.h \
@@ -41,15 +46,12 @@ CMakeFiles/simpleTester.dir/simpleTester.c.o: simpleTester.c \
   /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
-  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
   /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
   /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
   /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
   /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
   /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
   BLQueue.h \
-  /usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h \
   common.h \
   /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h \
   /usr/include/stdint.h \
@@ -63,6 +65,8 @@ CMakeFiles/simpleTester.dir/simpleTester.c.o: simpleTester.c \
   SimpleQueue.h
 
 
+RingsQueue.h:
+
 /usr/include/x86_64-linux-gnu/bits/floatn.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h:
@@ -74,6 +78,8 @@ CMakeFiles/simpleTester.dir/simpleTester.c.o: simpleTester.c \
 /usr/include/time.h:
 
 /usr/include/features.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h:
 
 simpleTester.c:
 
@@ -99,17 +105,11 @@ simpleTester.c:
 
 /usr/include/x86_64-linux-gnu/bits/long-double.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
-
-/usr/include/threads.h:
-
 /usr/include/x86_64-linux-gnu/bits/wordsize.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
-
-RingsQueue.h:
 
 /usr/include/features-time64.h:
 
@@ -125,6 +125,8 @@ RingsQueue.h:
 
 /usr/include/x86_64-linux-gnu/bits/floatn-common.h:
 
+/usr/include/strings.h:
+
 /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
 
 /usr/include/stdio.h:
@@ -132,6 +134,10 @@ RingsQueue.h:
 /usr/include/stdc-predef.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
+
+/usr/include/threads.h:
 
 /usr/include/x86_64-linux-gnu/bits/time.h:
 
@@ -159,11 +165,13 @@ SimpleQueue.h:
 
 /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h:
 
-/usr/include/x86_64-linux-gnu/bits/types.h:
-
 LLQueue.h:
 
+/usr/include/x86_64-linux-gnu/bits/types.h:
+
 /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
+
+/usr/include/string.h:
 
 /usr/include/x86_64-linux-gnu/bits/endian.h:
 
@@ -172,8 +180,6 @@ BLQueue.h:
 /usr/lib/gcc/x86_64-linux-gnu/12/include/stdatomic.h:
 
 /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h:
 
 /usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
 

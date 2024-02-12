@@ -2,16 +2,9 @@
 #include <malloc.h>
 #include <stdatomic.h>
 #include <stdbool.h>
-#include <stddef.h>
-#include <stdint.h>
-#include <string.h>
 
 #include "BLQueue.h"
 #include "HazardPointer.h"
-
-/*
-Sanitize adress bardzo krzyczy jakprzy testach. Są jakieś double free itp.
-*/
 
 struct BLNode;
 typedef struct BLNode BLNode;
@@ -36,7 +29,7 @@ BLNode *BLQueueNode_new(Value val) {
     for (int i = 0; i < BUFFER_SIZE; ++i) {
         atomic_init(&node->buffer[i], EMPTY_VALUE);
     }
-    node->buffer[0] = val;
+    atomic_store(&node->buffer[0], val);
 
     return node;
 }
@@ -45,6 +38,8 @@ struct BLQueue {
     AtomicBLNodePtr head;
     AtomicBLNodePtr tail;
     HazardPointer hp;
+    _Atomic(int) malloc;
+    _Atomic(int) free;
 };
 
 BLQueue *BLQueue_new(void) {
@@ -82,18 +77,15 @@ void BLQueue_push(BLQueue *queue, Value item) {
                 if (atomic_compare_exchange_strong(&last->buffer[push_idx % BUFFER_SIZE], &expected, item)) {
                     HazardPointer_clear(&queue->hp);
                     return;
-                } else {
-                    continue;
                 }
             } else {
-                if (last != atomic_load(&queue->tail)) { // New node appeared
-                    continue;
-                } else { // We are the ones adding the new node
+                if (last == atomic_load(&queue->tail)) { // We are the ones adding the new node
                     BLNode *node = BLQueueNode_new(item);
                     BLNode *expected = NULL;
                     // Successfully added a node
                     if (atomic_compare_exchange_strong(&last->next, &expected, node)) {
                         atomic_compare_exchange_strong(&queue->tail, &last, node);
+                        printf("Mallocked for item: %ld\n", item);
                         HazardPointer_clear(&queue->hp);
                         return;
                     } else { // Didn't add the node, trying again.
@@ -122,24 +114,51 @@ Value BLQueue_pop(BLQueue *queue) {
                     return got;
                 }
             } else {
-                BLNode *next = atomic_load(&first->next); // TODO: That may not work
-                if (next == NULL) {                       // Queue is empty.
+                BLNode *next = atomic_load(&first->next);
+                if (next == NULL) { // Queue is empty.
                     HazardPointer_clear(&queue->hp);
                     return EMPTY_VALUE;
                 } else {
-                    atomic_exchange(&queue->head, next);
-                    HazardPointer_retire(&queue->hp, first);
-                    HazardPointer_clear(&queue->hp);
+                    if (atomic_compare_exchange_strong(&queue->head, &first, next)) {
+                        printf("Freed %ld, %ld\n", first->buffer[0], first->buffer[1]);
+                        HazardPointer_retire(&queue->hp, first);
+                        HazardPointer_clear(&queue->hp);
+                    }
                 }
             }
         }
     }
 }
 
-bool BLQueue_is_empty(BLQueue *queue) { // TODO : Does that work???
-    BLNode *first = atomic_load(&queue->head);
-    unsigned long long push_idx = atomic_load(&first->push_idx);
-    unsigned long long pop_idx = atomic_load(&first->pop_idx);
+bool BLQueue_is_empty(BLQueue *queue) {
+    BLNode *first = HazardPointer_protect(&queue->hp, (void *)&queue->head);
+    BLNode *next = atomic_load(&first->next);
 
-    return (first == atomic_load(&queue->head) && push_idx == pop_idx);
+    if (!next) {
+        unsigned long long pop_idx = atomic_load(&first->pop_idx);
+        if (pop_idx < BUFFER_SIZE) { // Buffer not full.
+            Value got = atomic_load(&first->buffer[pop_idx % BUFFER_SIZE]);
+            if (got == EMPTY_VALUE) { // Pop idx is empty, thus whole queue is.
+                HazardPointer_clear(&queue->hp);
+                return true;
+            } else {
+                HazardPointer_clear(&queue->hp);
+                return false;
+            }
+
+        } else { // This one full, next one doesn't exist, thus queue is empty.
+            HazardPointer_clear(&queue->hp);
+            return true;
+        }
+
+    } else { // Next one exists, so it's not empty.
+        HazardPointer_clear(&queue->hp);
+        return false;
+    }
+
+    // BLNode *first = atomic_load(&queue->head);
+    // unsigned long long push_idx = atomic_load(&first->push_idx);
+    // unsigned long long pop_idx = atomic_load(&first->pop_idx);
+
+    // return (first == atomic_load(&queue->head) && push_idx == pop_idx);
 }

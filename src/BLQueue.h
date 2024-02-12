@@ -4,7 +4,7 @@
 
 #include "common.h"
 
-#define BUFFER_SIZE 16
+#define BUFFER_SIZE 2
 // #define BUFFER_SIZE 1024
 
 struct BLQueue;

@@ -2,8 +2,6 @@
 #include <malloc.h>
 #include <pthread.h>
 #include <stdatomic.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 #include "HazardPointer.h"
 #include "RingsQueue.h"
@@ -41,7 +39,6 @@ struct RingsQueue {
 RingsQueue *RingsQueue_new(void) {
     RingsQueue *queue = (RingsQueue *)malloc(sizeof(RingsQueue));
     assert(queue != NULL);
-    // TODO: Maybe fix that, cause we lose a lot of bytes on the mock node.
     RingsQueueNode *node = RingsQueueNode_new();
 
     queue->head = node;
@@ -55,7 +52,6 @@ RingsQueue *RingsQueue_new(void) {
 }
 
 void RingsQueue_delete(RingsQueue *queue) {
-    // TODO: Maybe add mutex.
     RingsQueueNode *node = queue->head;
     while (node) {
         RingsQueueNode *next = atomic_load(&node->next);
@@ -105,7 +101,6 @@ Value RingsQueue_pop(RingsQueue *queue) {
         RingsQueueNode *next = first->next;
 
         if (!next) { // Whole queue is empty.
-            
             atomic_store(&queue->queue_size, 0);
             pthread_mutex_unlock(&queue->pop_mtx);
             
@@ -125,38 +120,5 @@ Value RingsQueue_pop(RingsQueue *queue) {
 }
 
 bool RingsQueue_is_empty(RingsQueue *queue) {
-    // pthread_mutex_lock(&queue->pop_mtx);
-    // pthread_mutex_lock(&queue->push_mtx);
-    // RingsQueueNode *first = queue->head;
-    // int empty =
-    //     (atomic_load(&first->pop_idx) >= atomic_load(&first->push_idx) &&
-    //      !atomic_load(&first->next));
-    // return empty;
-    // pthread_mutex_unlock(&queue->push_mtx);
-    // pthread_mutex_unlock(&queue->pop_mtx);
-
-    // assert(pthread_mutex_lock(&queue->pop_mtx) >= 0);
-    // assert(pthread_mutex_lock(&queue->push_mtx) >= 0);
-
-    // RingsQueueNode *first = queue->head;
-
-    // if (atomic_load(&first->pop_idx) < atomic_load(&first->push_idx)) { // Is not empty.
-    //     assert(pthread_mutex_unlock(&queue->push_mtx) >= 0);
-    //     assert(pthread_mutex_unlock(&queue->pop_mtx) >= 0);
-    //     return false;
-    // } else { // Buffer in that node is empty.
-    //     RingsQueueNode *next = atomic_load(&first->next);
-
-    //     if (!next) { // Whole queue is empty.
-    //         assert(pthread_mutex_unlock(&queue->push_mtx) >= 0);
-    //         assert(pthread_mutex_unlock(&queue->pop_mtx) >= 0);
-    //         return true;
-    //     } else { // Just this node is empty. Next one exists
-    //         assert(pthread_mutex_unlock(&queue->push_mtx) >= 0);
-    //         assert(pthread_mutex_unlock(&queue->pop_mtx) >= 0);
-    //         return false;
-    //     }
-    // }
-    // printf("O co kurwa chodzi\n");
     return atomic_load(&queue->queue_size) == 0;
 }

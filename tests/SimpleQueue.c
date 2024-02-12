@@ -1,16 +1,9 @@
 #include <assert.h>
 #include <malloc.h>
 #include <pthread.h>
-#include <stdlib.h> // TODO: Remove that
-#include <stdio.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <syscall.h>
+#include <stdatomic.h>
 
-#include "HazardPointer.h" // TODO: Remove that
 #include "SimpleQueue.h"
-
-//TODO: Atomic_store somewhere???
 
 struct SimpleQueueNode;
 typedef struct SimpleQueueNode SimpleQueueNode;
@@ -54,12 +47,10 @@ SimpleQueue *SimpleQueue_new(void) {
 }
 
 void SimpleQueue_delete(SimpleQueue *queue) {
-    // TODO: Maybe add mutex.
-    
-    SimpleQueueNode* node = queue->head;
+    SimpleQueueNode *node = queue->head;
 
     while (node) {
-        SimpleQueueNode* next = atomic_load(&node->next);
+        SimpleQueueNode *next = atomic_load(&node->next);
         free(node);
         node = next;
     }
@@ -71,19 +62,19 @@ void SimpleQueue_delete(SimpleQueue *queue) {
 
 void SimpleQueue_push(SimpleQueue *queue, Value item) {
     SimpleQueueNode *node = SimpleQueueNode_new(item);
-    assert(pthread_mutex_lock(&queue->tail_mtx) >= 0); // TODO: Maybe before allocation
-    
+    assert(pthread_mutex_lock(&queue->tail_mtx) >= 0);
+
     atomic_store(&queue->tail->next, node);
     queue->tail = node;
-    
+
     assert(pthread_mutex_unlock(&queue->tail_mtx) >= 0);
 }
 
 Value SimpleQueue_pop(SimpleQueue *queue) {
     assert(pthread_mutex_lock(&queue->head_mtx) >= 0);
-    
-    SimpleQueueNode* last = queue->head;
-    SimpleQueueNode* next = atomic_load(&last->next); 
+
+    SimpleQueueNode *last = queue->head;
+    SimpleQueueNode *next = atomic_load(&last->next);
 
     if (next == NULL) {
         assert(pthread_mutex_unlock(&queue->head_mtx) >= 0);
@@ -91,7 +82,7 @@ Value SimpleQueue_pop(SimpleQueue *queue) {
     } else {
         Value item = next->item;
         queue->head = next;
-        last->next = NULL; // TODO: Maybe not needed
+        last->next = NULL;
 
         assert(pthread_mutex_unlock(&queue->head_mtx) >= 0);
         free(last);

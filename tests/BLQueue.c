@@ -9,6 +9,10 @@
 #include "BLQueue.h"
 #include "HazardPointer.h"
 
+/*
+Sanitize adress bardzo krzyczy jakprzy testach. Są jakieś double free itp.
+*/
+
 struct BLNode;
 typedef struct BLNode BLNode;
 typedef _Atomic(BLNode *) AtomicBLNodePtr;
@@ -29,14 +33,11 @@ BLNode *BLQueueNode_new(Value val) {
     node->pop_idx = 0;
 
     // Initial values in buffer are EMPTY_VALUE.
-    // memset(node->buffer, EMPTY_VALUE, BUFFER_SIZE); // TODO: Maybe that works
-    // the same way.
     for (int i = 0; i < BUFFER_SIZE; ++i) {
         atomic_init(&node->buffer[i], EMPTY_VALUE);
     }
-
     node->buffer[0] = val;
-    // TODO: Zrób coś z buforem
+
     return node;
 }
 
@@ -59,11 +60,9 @@ BLQueue *BLQueue_new(void) {
 }
 
 void BLQueue_delete(BLQueue *queue) {
-    // BLNode *node = atomic_load(&queue->head);
-    BLNode *node = HazardPointer_protect(&queue->hp, &queue->head);
+    BLNode *node = HazardPointer_protect(&queue->hp, (void *)&queue->head);
     while (node) {
-        // BLNode *next = atomic_load(&node->next);
-        BLNode *next = HazardPointer_protect(&queue->hp, &node->next);
+        BLNode *next = HazardPointer_protect(&queue->hp, (void *)&node->next);
         HazardPointer_retire(&queue->hp, node);
         node = next;
     }
@@ -73,10 +72,8 @@ void BLQueue_delete(BLQueue *queue) {
 }
 
 void BLQueue_push(BLQueue *queue, Value item) {
-    BLNode *node = BLQueueNode_new(item);
     while (1) {
-        // BLNode* last = atomic_load(&queue->tail);
-        BLNode* last = HazardPointer_protect(&queue->hp, &queue->tail);
+        BLNode *last = HazardPointer_protect(&queue->hp, (void *)&queue->tail);
 
         if (last == atomic_load(&queue->tail)) { // TODO: Maybe not needed
             unsigned long long push_idx = atomic_fetch_add(&last->push_idx, 1);
@@ -86,20 +83,21 @@ void BLQueue_push(BLQueue *queue, Value item) {
                     HazardPointer_clear(&queue->hp);
                     return;
                 } else {
-                    // HazardPointer_clear(&queue->hp); // TODO: Is that needed here?
                     continue;
                 }
             } else {
                 if (last != atomic_load(&queue->tail)) { // New node appeared
                     continue;
                 } else { // We are the ones adding the new node
+                    BLNode *node = BLQueueNode_new(item);
                     BLNode *expected = NULL;
                     // Successfully added a node
                     if (atomic_compare_exchange_strong(&last->next, &expected, node)) {
                         atomic_compare_exchange_strong(&queue->tail, &last, node);
                         HazardPointer_clear(&queue->hp);
                         return;
-                    } else { // Didn't add the mode.
+                    } else { // Didn't add the node, trying again.
+                        free(node);
                         continue;
                     }
                 }
@@ -110,7 +108,7 @@ void BLQueue_push(BLQueue *queue, Value item) {
 
 Value BLQueue_pop(BLQueue *queue) {
     while (1) {
-        BLNode* first =  HazardPointer_protect(&queue->hp, &queue->head);
+        BLNode *first = HazardPointer_protect(&queue->hp, (void *)&queue->head);
 
         if (first == atomic_load(&queue->head)) {
             unsigned long long pop_idx = atomic_fetch_add(&first->pop_idx, 1);
@@ -125,7 +123,7 @@ Value BLQueue_pop(BLQueue *queue) {
                 }
             } else {
                 BLNode *next = atomic_load(&first->next); // TODO: That may not work
-                if (next == NULL) { // Queue is empty.
+                if (next == NULL) {                       // Queue is empty.
                     HazardPointer_clear(&queue->hp);
                     return EMPTY_VALUE;
                 } else {
@@ -138,7 +136,7 @@ Value BLQueue_pop(BLQueue *queue) {
     }
 }
 
-bool BLQueue_is_empty(BLQueue *queue) {
+bool BLQueue_is_empty(BLQueue *queue) { // TODO : Does that work???
     BLNode *first = atomic_load(&queue->head);
     unsigned long long push_idx = atomic_load(&first->push_idx);
     unsigned long long pop_idx = atomic_load(&first->pop_idx);

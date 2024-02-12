@@ -3,11 +3,6 @@
 #include <pthread.h>
 #include <stdatomic.h>
 #include <stdbool.h>
-#include <stdio.h>
-#include <sys/types.h>
-#include <syscall.h>
-#include <threads.h>
-#include <unistd.h>
 
 #include "HazardPointer.h"
 #include "LLQueue.h"
@@ -53,25 +48,25 @@ LLQueue *LLQueue_new(void) {
 }
 
 void LLQueue_delete(LLQueue *queue) {
-    LLNode* node = HazardPointer_protect(&queue->hp, &queue->head);
+    LLNode* node = HazardPointer_protect(&queue->hp, (void *) &queue->head);
     while (node) {
-        LLNode* next = HazardPointer_protect(&queue->hp, &node->next);
+        LLNode* next = HazardPointer_protect(&queue->hp, (void *) &node->next);
         HazardPointer_retire(&queue->hp, node);
         node = next;
     }
     HazardPointer_clear(&queue->hp);
     HazardPointer_finalize(&queue->hp);
 
-    free(queue); // TODO: Free that memory?
+    free(queue);
 }
 
 void LLQueue_push(LLQueue *queue, Value item) {
     LLNode *node = LLQueueNode_new(item);
     while (1) {
-        LLNode *last = HazardPointer_protect(&queue->hp, &queue->tail);
+        LLNode *last = HazardPointer_protect(&queue->hp, (void *) &queue->tail);
 
         if (last == atomic_load(&queue->tail)) {
-            LLNode *next = HazardPointer_protect(&queue->hp, &last->next);
+            LLNode *next = HazardPointer_protect(&queue->hp, (void *) &last->next);
             if (next == NULL) {
                 if (atomic_compare_exchange_strong(&last->next, &next, node)) {
                     atomic_compare_exchange_strong(&queue->tail, &last, node);
@@ -87,10 +82,10 @@ void LLQueue_push(LLQueue *queue, Value item) {
 
 Value LLQueue_pop(LLQueue *queue) {
     while (1) {
-        LLNode *first = HazardPointer_protect(&queue->hp, &queue->head);
-        LLNode *last = atomic_load(&queue->tail); // Safe
+        LLNode *first = HazardPointer_protect(&queue->hp, (void *) &queue->head);
+        LLNode *last = atomic_load(&queue->tail);
         LLNode *next = HazardPointer_protect(
-            &queue->hp, &first->next); // first is protected
+            &queue->hp, (void *) &first->next);
 
         if (first == atomic_load(&queue->head)) {
             if (first == last) {
@@ -98,7 +93,7 @@ Value LLQueue_pop(LLQueue *queue) {
                     return EMPTY_VALUE;
                 }
                 atomic_compare_exchange_strong(&queue->tail, &last,
-                                               next); // Safe
+                                               next);
             } else {
                 Value value = next->item; // Next is protected so this is safe.
                 if (atomic_compare_exchange_strong(&queue->head, &first,
@@ -114,10 +109,10 @@ Value LLQueue_pop(LLQueue *queue) {
 
 bool LLQueue_is_empty(LLQueue *queue) { // Basically same as LLQueue_pop
     while (1) {
-        LLNode *first = HazardPointer_protect(&queue->hp, &queue->head);
-        LLNode *last = atomic_load(&queue->tail); // Safe
+        LLNode *first = HazardPointer_protect(&queue->hp, (void *) &queue->head);
+        LLNode *last = atomic_load(&queue->tail);
         LLNode *next = HazardPointer_protect(
-            &queue->hp, &first->next); // first is protected
+            &queue->hp, (void *) &first->next);
 
         if (first == atomic_load(&queue->head)) {
             if (first == last) {
@@ -125,7 +120,7 @@ bool LLQueue_is_empty(LLQueue *queue) { // Basically same as LLQueue_pop
                     return true;
                 }
                 atomic_compare_exchange_strong(&queue->tail, &last,
-                                               next); // Safe
+                                               next);
             } else {
                 if (atomic_compare_exchange_strong(&queue->head, &first,
                                                    next)) {

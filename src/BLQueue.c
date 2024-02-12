@@ -63,6 +63,7 @@ void BLQueue_delete(BLQueue *queue) {
     BLNode *node = HazardPointer_protect(&queue->hp, (void *)&queue->head);
     while (node) {
         BLNode *next = HazardPointer_protect(&queue->hp, (void *)&node->next);
+        printf("Malloc new node\n");
         HazardPointer_retire(&queue->hp, node);
         node = next;
     }
@@ -89,6 +90,7 @@ void BLQueue_push(BLQueue *queue, Value item) {
                 if (last != atomic_load(&queue->tail)) { // New node appeared
                     continue;
                 } else { // We are the ones adding the new node
+                    printf("Malloc new node\n");
                     BLNode *node = BLQueueNode_new(item);
                     BLNode *expected = NULL;
                     // Successfully added a node
@@ -128,6 +130,7 @@ Value BLQueue_pop(BLQueue *queue) {
                     return EMPTY_VALUE;
                 } else {
                     atomic_exchange(&queue->head, next);
+                    printf("Retire new node\n");
                     HazardPointer_retire(&queue->hp, first);
                     HazardPointer_clear(&queue->hp);
                 }

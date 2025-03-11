@@ -21,9 +21,9 @@
 #pragma GCC diagnostic ignored "-Wincompatible-pointer-types"
 
 const QueueVTable queueVTables[] = {
-        // MakeVTable(SimpleQueue)
-        // MakeVTable(RingsQueue)
-        // MakeVTable(LLQueue)
+        MakeVTable(SimpleQueue),
+        MakeVTable(RingsQueue),
+        MakeVTable(LLQueue),
         MakeVTable(BLQueue)
 };
 

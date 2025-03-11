@@ -1,6 +1,7 @@
 .vscode/
 
 tests/build/
+src/build/
 CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake

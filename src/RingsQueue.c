@@ -98,7 +98,7 @@ Value RingsQueue_pop(RingsQueue *queue) {
 
         return value;
     } else { // Buffer in that node is empty.
-        RingsQueueNode *next = first->next;
+        RingsQueueNode *next = atomic_load(&first->next);
 
         if (!next) { // Whole queue is empty.
             atomic_store(&queue->queue_size, 0);

@@ -37,7 +37,7 @@ void *HazardPointer_protect(HazardPointer *hp, const _Atomic(void *) *atom) {
         to_protect = atomic_load(atom);
         if (to_protect == atomic_load(atom)) {
             atomic_store(&hp->pointer[_thread_id],
-                         to_protect); // TODO: Two lines higher?
+                         to_protect);
             break;
         }
     }
@@ -60,7 +60,7 @@ void HazardPointer_retire(HazardPointer *hp, void *ptr) {
     }
 
     if (retired_count >= RETIRED_THRESHOLD) {
-        bool protected = false; // Is that ptr protected bo anyone.
+        bool protected = false; // Is that ptr protected by anyone.
         for (int i = 0; i < MAX_THREADS; i++) {
             if (hp->retired[_thread_id][i]) {
                 // Checking if address is not protected.

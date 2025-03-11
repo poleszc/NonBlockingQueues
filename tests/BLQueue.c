@@ -55,13 +55,13 @@ BLQueue *BLQueue_new(void) {
 }
 
 void BLQueue_delete(BLQueue *queue) {
-    BLNode *node = HazardPointer_protect(&queue->hp, (void *)&queue->head);
+    BLNode *node = queue->head;
     while (node) {
-        BLNode *next = HazardPointer_protect(&queue->hp, (void *)&node->next);
-        HazardPointer_retire(&queue->hp, node);
+        BLNode *next = atomic_load(&node->next);
+        free(node);
         node = next;
     }
-    HazardPointer_clear(&queue->hp);
+
     HazardPointer_finalize(&queue->hp);
     free(queue);
 }
@@ -69,7 +69,6 @@ void BLQueue_delete(BLQueue *queue) {
 void BLQueue_push(BLQueue *queue, Value item) {
     while (1) {
         BLNode *last = HazardPointer_protect(&queue->hp, (void *)&queue->tail);
-
         if (last == atomic_load(&queue->tail)) { // TODO: Maybe not needed
             unsigned long long push_idx = atomic_fetch_add(&last->push_idx, 1);
             if (push_idx < BUFFER_SIZE) {
@@ -79,18 +78,23 @@ void BLQueue_push(BLQueue *queue, Value item) {
                     return;
                 }
             } else {
-                if (last == atomic_load(&queue->tail)) { // We are the ones adding the new node
-                    BLNode *node = BLQueueNode_new(item);
-                    BLNode *expected = NULL;
-                    // Successfully added a node
-                    if (atomic_compare_exchange_strong(&last->next, &expected, node)) {
-                        atomic_compare_exchange_strong(&queue->tail, &last, node);
-                        printf("Mallocked for item: %ld\n", item);
-                        HazardPointer_clear(&queue->hp);
-                        return;
-                    } else { // Didn't add the node, trying again.
-                        free(node);
-                        continue;
+                BLNode *next = atomic_load(&last->next);
+                if (next) { // We make sure that the node changed.
+                    atomic_compare_exchange_strong(&queue->tail, &last, next);
+                } else {
+                    if (last == atomic_load(&queue->tail)) { // We are the ones adding the new node
+                        BLNode *node = BLQueueNode_new(item);
+                        BLNode *expected = NULL;
+                        // Successfully added a node
+                        if (atomic_compare_exchange_strong(&last->next, &expected, node)) {
+                            atomic_compare_exchange_strong(&queue->tail, &last, node);
+                            // printf("Mallocked for item: %ld\n", item);
+                            HazardPointer_clear(&queue->hp);
+                            return;
+                        } else { // Didn't add the node, trying again.
+                            free(node);
+                            continue;
+                        }
                     }
                 }
             }
@@ -120,7 +124,6 @@ Value BLQueue_pop(BLQueue *queue) {
                     return EMPTY_VALUE;
                 } else {
                     if (atomic_compare_exchange_strong(&queue->head, &first, next)) {
-                        printf("Freed %ld, %ld\n", first->buffer[0], first->buffer[1]);
                         HazardPointer_retire(&queue->hp, first);
                         HazardPointer_clear(&queue->hp);
                     }
@@ -155,10 +158,4 @@ bool BLQueue_is_empty(BLQueue *queue) {
         HazardPointer_clear(&queue->hp);
         return false;
     }
-
-    // BLNode *first = atomic_load(&queue->head);
-    // unsigned long long push_idx = atomic_load(&first->push_idx);
-    // unsigned long long pop_idx = atomic_load(&first->pop_idx);
-
-    // return (first == atomic_load(&queue->head) && push_idx == pop_idx);
 }

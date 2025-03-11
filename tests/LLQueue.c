@@ -48,15 +48,14 @@ LLQueue *LLQueue_new(void) {
 }
 
 void LLQueue_delete(LLQueue *queue) {
-    LLNode* node = HazardPointer_protect(&queue->hp, (void *) &queue->head);
+    LLNode* node = NULL;
     while (node) {
-        LLNode* next = HazardPointer_protect(&queue->hp, (void *) &node->next);
-        HazardPointer_retire(&queue->hp, node);
+        LLNode* next = atomic_load(&node->next);
+        free(node);
         node = next;
     }
-    HazardPointer_clear(&queue->hp);
-    HazardPointer_finalize(&queue->hp);
 
+    HazardPointer_finalize(&queue->hp);
     free(queue);
 }
 
@@ -107,7 +106,7 @@ Value LLQueue_pop(LLQueue *queue) {
     }
 }
 
-bool LLQueue_is_empty(LLQueue *queue) { // Basically same as LLQueue_pop
+bool LLQueue_is_empty(LLQueue *queue) {
     while (1) {
         LLNode *first = HazardPointer_protect(&queue->hp, (void *) &queue->head);
         LLNode *last = atomic_load(&queue->tail);

@@ -33,7 +33,6 @@ struct RingsQueue {
     pthread_mutex_t push_mtx;
     pthread_mutex_t pop_mtx;
     _Atomic(unsigned long long) queue_size;
-
 };
 
 RingsQueue *RingsQueue_new(void) {
@@ -69,7 +68,8 @@ void RingsQueue_push(RingsQueue *queue, Value item) {
 
     RingsQueueNode *last = queue->tail;
 
-    if (atomic_load(&last->push_idx) - atomic_load(&last->pop_idx) < RING_SIZE) { // Node is not full
+    if (atomic_load(&last->push_idx) - atomic_load(&last->pop_idx) <
+        RING_SIZE) { // Node is not full
         last->buffer[atomic_load(&last->push_idx) % RING_SIZE] = item;
         atomic_fetch_add(&queue->queue_size, 1);
         atomic_fetch_add(&last->push_idx, 1);
@@ -90,7 +90,8 @@ Value RingsQueue_pop(RingsQueue *queue) {
 
     RingsQueueNode *first = queue->head;
 
-    if (atomic_load(&first->pop_idx) < atomic_load(&first->push_idx)) { // Is not empty.
+    if (atomic_load(&first->pop_idx) <
+        atomic_load(&first->push_idx)) { // Is not empty.
         Value value = first->buffer[atomic_load(&first->pop_idx) % RING_SIZE];
         atomic_fetch_add(&first->pop_idx, 1);
         atomic_fetch_sub(&queue->queue_size, 1);
@@ -103,12 +104,12 @@ Value RingsQueue_pop(RingsQueue *queue) {
         if (!next) { // Whole queue is empty.
             atomic_store(&queue->queue_size, 0);
             pthread_mutex_unlock(&queue->pop_mtx);
-            
+
             return EMPTY_VALUE;
         } else { // Just this node is empty. Next one exists
             queue->head = next;
             Value item = next->buffer[atomic_load(&next->pop_idx) % RING_SIZE];
-            
+
             atomic_fetch_add(&next->pop_idx, 1);
             atomic_fetch_sub(&queue->queue_size, 1);
             assert(pthread_mutex_unlock(&queue->pop_mtx) >= 0);

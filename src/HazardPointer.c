@@ -36,8 +36,7 @@ void *HazardPointer_protect(HazardPointer *hp, const _Atomic(void *) *atom) {
     while (1) {
         to_protect = atomic_load(atom);
         if (to_protect == atomic_load(atom)) {
-            atomic_store(&hp->pointer[_thread_id],
-                         to_protect);
+            atomic_store(&hp->pointer[_thread_id], to_protect);
             break;
         }
     }

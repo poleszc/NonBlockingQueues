@@ -1,8 +1,15 @@
+.vscode/
+
+tests/build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
 ./uw-testy/CMakeFiles/
 ./uw-testy/tests/cmake_install.cmake
 ./uw-testy/tests/CMakeCache.txt
 ./uw-testy/tests/Makefile
-./tests/build/
 ./tests/CMakeFiles/
 ./tests/cmake_install.cmake
 ./tests/CMakeCache.txt
